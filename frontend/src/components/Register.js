@@ -11,10 +11,6 @@ export default function Register(){
 
     const [submit,setSubmit] = React.useState(false)
 
-    const [result,setResult] = React.useState({
-        "name":""
-    })
-
     function handleChange(event){
         const {name,value,type,checked} = event.target
 

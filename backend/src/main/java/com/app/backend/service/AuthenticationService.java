@@ -2,6 +2,8 @@ package com.app.backend.service;
 
 import com.app.backend.model.User;
 import com.app.backend.repository.UserRepository;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,8 +19,9 @@ public class AuthenticationService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final JWTService jwtService;
 
-    public String register(User user){
+    public String register(User user, HttpServletResponse response){
         Optional<User> usernameExists = userRepository.findByUsername(user.getUsername());
         Optional<User> emailExists = userRepository.findByEmail(user.getEmail());
 
@@ -32,10 +35,14 @@ public class AuthenticationService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("USER");
         userRepository.save(user);
+        String token = jwtService.generateToken(user);
+        Cookie tokenCookie = new Cookie("token",token);
+        tokenCookie.setPath("/");
+        response.addCookie(tokenCookie);
         return "Success!";
     }
 
-    public String login(User user){
+    public String login(User user,HttpServletResponse response){
         Optional<User> userExists = userRepository.findByUsername(user.getUsername());
         if (userExists.isEmpty()){
             return "Failed authentication";
@@ -50,6 +57,10 @@ public class AuthenticationService {
                 )
         );
 
+        String token = jwtService.generateToken(user);
+        Cookie tokenCookie = new Cookie("token",token);
+        tokenCookie.setPath("/");
+        response.addCookie(tokenCookie);
         return "Success!";
     }
 }
