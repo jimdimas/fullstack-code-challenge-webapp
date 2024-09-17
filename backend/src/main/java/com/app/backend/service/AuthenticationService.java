@@ -1,6 +1,8 @@
 package com.app.backend.service;
 
+import com.app.backend.model.Supervisor;
 import com.app.backend.model.User;
+import com.app.backend.repository.SupervisorRepository;
 import com.app.backend.repository.UserRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,6 +19,7 @@ import java.util.Optional;
 public class AuthenticationService {
 
     private final UserRepository userRepository;
+    private final SupervisorRepository supervisorRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JWTService jwtService;
@@ -33,8 +36,20 @@ public class AuthenticationService {
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole("USER");
-        userRepository.save(user);
+
+        if (user.getEmail().contains("supervisor")){
+            user.setRole("SUPERVISOR");
+            Supervisor supervisor= new Supervisor();
+            supervisor.setEmail(user.getEmail());
+            supervisor.setPassword(user.getPassword());
+            supervisor.setUsername(user.getUsername());
+            supervisor.setRole(user.getRole());
+            supervisorRepository.save(supervisor);
+        } else {
+            user.setRole("USER");
+            userRepository.save(user);
+        }
+
         String token = jwtService.generateToken(user);
         Cookie tokenCookie = new Cookie("token",token);
         tokenCookie.setPath("/");

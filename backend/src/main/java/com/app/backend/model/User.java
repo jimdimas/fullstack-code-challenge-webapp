@@ -1,10 +1,10 @@
 package com.app.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,10 +15,11 @@ import java.util.Collection;
 import java.util.List;
 
 @Data
-@Builder
 @Entity(name = "_user")
+@Inheritance(strategy = InheritanceType.JOINED)
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(value={"enabled","authorities","accountNonExpired","credentialsNonExpired","accountNonLocked"})
 public class User implements UserDetails {
 
     @Id
