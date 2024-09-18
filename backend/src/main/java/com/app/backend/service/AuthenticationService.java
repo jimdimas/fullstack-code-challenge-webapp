@@ -1,7 +1,9 @@
 package com.app.backend.service;
 
+import com.app.backend.model.Student;
 import com.app.backend.model.Supervisor;
 import com.app.backend.model.User;
+import com.app.backend.repository.StudentRepository;
 import com.app.backend.repository.SupervisorRepository;
 import com.app.backend.repository.UserRepository;
 import jakarta.servlet.http.Cookie;
@@ -20,6 +22,7 @@ public class AuthenticationService {
 
     private final UserRepository userRepository;
     private final SupervisorRepository supervisorRepository;
+    private final StudentRepository studentRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JWTService jwtService;
@@ -46,8 +49,13 @@ public class AuthenticationService {
             supervisor.setRole(user.getRole());
             supervisorRepository.save(supervisor);
         } else {
-            user.setRole("USER");
-            userRepository.save(user);
+            Student student = new Student();
+            student.setSchool("University");
+            student.setRole("STUDENT");
+            student.setPassword(user.getPassword());
+            student.setEmail(user.getEmail());
+            student.setUsername(user.getUsername());
+            studentRepository.save(student);
         }
 
         String token = jwtService.generateToken(user);

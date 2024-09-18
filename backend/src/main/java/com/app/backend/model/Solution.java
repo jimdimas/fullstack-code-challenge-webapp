@@ -8,31 +8,31 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
-import java.util.UUID;
 
 @Data
 @Builder
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Problem {
+public class Solution {
 
     @Id
     @SequenceGenerator(
-            name = "problem_sequence",
-            sequenceName = "problem_sequence",
+            name = "solution_sequence",
+            sequenceName = "solution_sequence",
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "problem_sequence"
+            generator = "solution_sequence"
     )
     @JsonIgnore
     private Integer id;
-    private UUID problemId;
-    @ManyToOne
-    private Supervisor uploadedBy;
-    private String difficulty;
-    private String question;
-    private Date expiresAt;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Student solvedBy;
+    private String content;
+    private Date solvedAt;
+    private Integer rating;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Problem forProblem;
 }
