@@ -6,8 +6,6 @@ import com.app.backend.model.User;
 import com.app.backend.repository.StudentRepository;
 import com.app.backend.repository.SupervisorRepository;
 import com.app.backend.repository.UserRepository;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,7 +25,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final JWTService jwtService;
 
-    public String register(User user, HttpServletResponse response){
+    public String register(User user){
         Optional<User> usernameExists = userRepository.findByUsername(user.getUsername());
         Optional<User> emailExists = userRepository.findByEmail(user.getEmail());
 
@@ -59,20 +57,16 @@ public class AuthenticationService {
         }
 
         String token = jwtService.generateToken(user);
-        Cookie tokenCookie = new Cookie("token",token);
-        tokenCookie.setPath("/");
-        response.addCookie(tokenCookie);
-        return "Success!";
+        return token;
     }
 
-    public String login(User user,HttpServletResponse response){
+    public String login(User user){
         Optional<User> userExists = userRepository.findByUsername(user.getUsername());
         if (userExists.isEmpty()){
             return "Failed authentication";
         }
 
         User savedUser = userExists.get();
-
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         savedUser.getUsername(),
@@ -81,9 +75,6 @@ public class AuthenticationService {
         );
 
         String token = jwtService.generateToken(user);
-        Cookie tokenCookie = new Cookie("token",token);
-        tokenCookie.setPath("/");
-        response.addCookie(tokenCookie);
-        return "Success!";
+        return token;
     }
 }

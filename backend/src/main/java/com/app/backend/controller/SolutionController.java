@@ -1,6 +1,7 @@
 package com.app.backend.controller;
 
 import com.app.backend.model.Solution;
+import com.app.backend.model.User;
 import com.app.backend.service.SolutionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +28,9 @@ public class SolutionController {
 
     @PostMapping(path="/problem/{problemId}/solutions")
     public String postProblemSolution(
+            @RequestAttribute(name="user") User user,
             @PathVariable(name="problemId") UUID problemId,
             @RequestBody Solution solution){
-        return solutionService.postSolution(problemId,solution);
+        return solutionService.postSolution(user,problemId,solution);
     }
 }

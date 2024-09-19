@@ -2,6 +2,7 @@ package com.app.backend.service;
 
 import com.app.backend.model.Problem;
 import com.app.backend.model.Supervisor;
+import com.app.backend.model.User;
 import com.app.backend.repository.ProblemRepository;
 import com.app.backend.repository.SupervisorRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,8 +36,10 @@ public class ProblemService {
         return problemRepository.findByDifficulty(difficulty);
     }
 
-    public String createProblem(Problem problem){
-        System.out.println(problem.getUploadedBy().getUsername());
+    public String createProblem(User user, Problem problem){
+        if (!user.getRole().equals("SUPERVISOR")){
+            return "Only supervisors are allowed to post new problems";
+        }
         Optional<Supervisor> supervisorExists = supervisorRepository.
                 findByUsername(problem.getUploadedBy().getUsername());
         if (supervisorExists.isEmpty()){

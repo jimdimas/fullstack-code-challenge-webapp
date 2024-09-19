@@ -1,9 +1,10 @@
 package com.app.backend.filter;
 
+import com.app.backend.model.User;
+import com.app.backend.repository.UserRepository;
 import com.app.backend.service.JWTService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Optional;
 
 @Component
@@ -25,6 +25,7 @@ public class JWTFilter extends OncePerRequestFilter {
 
     private final JWTService jwtService;
     private final UserDetailsService userDetailsService;
+    private final UserRepository userRepository;
 
     @Override
     protected void doFilterInternal(
@@ -32,26 +33,27 @@ public class JWTFilter extends OncePerRequestFilter {
             HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
 
-        if (request.getCookies()!=null) {
-            Optional<Cookie> jwtCookieExists = Arrays.
-                    stream(request.getCookies()).
-                    filter(cookie -> cookie.getName().equals("token")).
-                    findFirst();
 
-            if (jwtCookieExists.isPresent()) {
-                String token = jwtCookieExists.get().getValue();
-                if (jwtService.verifyToken(token)) {
-                    String username = jwtService.getSubject(token);
-                    UserDetails user = userDetailsService.loadUserByUsername(username);
+        if (request.getHeader("Authorization")!=null) {
+            String token = request.getHeader("Authorization").replace("Bearer ","");
+
+            if (jwtService.verifyToken(token)) {
+                String username = jwtService.getSubject(token);
+                Optional<User> userExists = userRepository.findByUsername(username);
+                if (userExists.isPresent()){
+                    User user = userExists.get();
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                            user,
+                            (UserDetails) user,
                             null,
                             user.getAuthorities()
                     );
+
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authToken);
+                    request.setAttribute("user",user);
                 }
             }
+
         }
 
         filterChain.doFilter(request,response);

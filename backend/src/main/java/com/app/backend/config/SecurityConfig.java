@@ -10,6 +10,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -18,12 +23,24 @@ public class SecurityConfig {
 
     private final AuthenticationProvider authenticationProvider;
     private final JWTFilter jwtFilter;
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource(){
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+        corsConfiguration.setAllowedMethods(Arrays.asList("GET","POST"));
+        corsConfiguration.setAllowedHeaders(Arrays.asList("*"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", corsConfiguration);
+        return source;
+    }
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
-                .csrf((csrf)->csrf.disable())
+                .cors((cors)->cors.configurationSource(corsConfigurationSource()))
+                .csrf((csrf) -> csrf.disable())
                 .authorizeHttpRequests(
-                        (authorizeHttpRequests)->authorizeHttpRequests
+                        (authorizeHttpRequests) -> authorizeHttpRequests
                                 .requestMatchers(
                                         "/api/v1/auth/register",
                                         "api/v1/auth/login")
@@ -31,7 +48,7 @@ public class SecurityConfig {
                                 .anyRequest()
                                 .authenticated())
                 .sessionManagement(
-                        (sessionManagement)->sessionManagement
+                        (sessionManagement) -> sessionManagement
                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

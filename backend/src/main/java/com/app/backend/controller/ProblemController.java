@@ -1,6 +1,7 @@
 package com.app.backend.controller;
 
 import com.app.backend.model.Problem;
+import com.app.backend.model.User;
 import com.app.backend.service.ProblemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,9 @@ public class ProblemController {
     }
 
     @PostMapping
-    public String postProblem(@RequestBody Problem problem){
-        return problemService.createProblem(problem);
+    public String postProblem(
+            @RequestAttribute(name="user") User user,
+            @RequestBody Problem problem){
+        return problemService.createProblem(user,problem);
     }
 }
