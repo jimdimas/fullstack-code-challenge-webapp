@@ -1,5 +1,6 @@
 package com.app.backend.service;
 
+import com.app.backend.exception.CustomException;
 import com.app.backend.model.Problem;
 import com.app.backend.model.Solution;
 import com.app.backend.model.Student;
@@ -8,6 +9,7 @@ import com.app.backend.repository.ProblemRepository;
 import com.app.backend.repository.SolutionRepository;
 import com.app.backend.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -34,23 +36,23 @@ public class SolutionService {
     public String postSolution(
             User user,
             UUID problemId,
-            Solution solution){
+            Solution solution) throws CustomException {
 
         if (!user.getRole().equals("STUDENT")){
-            return "Only students are allowed to post solutions to problems";
+            throw new CustomException("Only students are allowed to post solutions to problems");
         }
         Optional<Problem> problemExists = problemRepository.findByProblemId(problemId);
         if (problemExists.isEmpty()){
-            return "Problem doesnt exist";
+            throw new CustomException("Problem doesnt exist");
         }
         Optional<Student> studentExists = studentRepository.findByUsername(user.getUsername());
         if (studentExists.isEmpty()){
-            return "Something went wrong,try again";
+            throw new CustomException("Something went wrong,try again");
         }
         solution.setSolvedAt(new Date());
         solution.setForProblem(problemExists.get());
         solution.setSolvedBy(studentExists.get());
         solutionRepository.save(solution);
-        return "Solution uploaded succesfully";
+        return "solution uploaded succesfully";
     }
 }

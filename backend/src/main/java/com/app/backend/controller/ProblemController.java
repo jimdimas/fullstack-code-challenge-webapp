@@ -1,5 +1,6 @@
 package com.app.backend.controller;
 
+import com.app.backend.exception.CustomException;
 import com.app.backend.model.Problem;
 import com.app.backend.model.User;
 import com.app.backend.service.ProblemService;
@@ -22,14 +23,14 @@ public class ProblemController {
     }
 
     @GetMapping(path="{problemId}")
-    public Problem getProblemById(@PathVariable UUID problemId){
+    public Problem getProblemById(@PathVariable UUID problemId) throws CustomException {
         return problemService.getByProblemId(problemId);
     }
 
     @PostMapping
     public String postProblem(
             @RequestAttribute(name="user") User user,
-            @RequestBody Problem problem){
+            @RequestBody Problem problem) throws CustomException {
         return problemService.createProblem(user,problem);
     }
 }

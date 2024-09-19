@@ -1,5 +1,6 @@
 package com.app.backend.controller;
 
+import com.app.backend.exception.CustomException;
 import com.app.backend.model.Solution;
 import com.app.backend.model.User;
 import com.app.backend.service.SolutionService;
@@ -30,7 +31,7 @@ public class SolutionController {
     public String postProblemSolution(
             @RequestAttribute(name="user") User user,
             @PathVariable(name="problemId") UUID problemId,
-            @RequestBody Solution solution){
+            @RequestBody Solution solution) throws CustomException {
         return solutionService.postSolution(user,problemId,solution);
     }
 }

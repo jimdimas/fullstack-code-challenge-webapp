@@ -1,5 +1,6 @@
 package com.app.backend.service;
 
+import com.app.backend.exception.CustomException;
 import com.app.backend.model.Problem;
 import com.app.backend.model.Supervisor;
 import com.app.backend.model.User;
@@ -23,9 +24,13 @@ public class ProblemService {
         return problemRepository.findAll();
     }
 
-    public Problem getByProblemId(UUID problemId) {
+    public Problem getByProblemId(UUID problemId) throws CustomException {
         Optional<Problem> problemExists = problemRepository.findByProblemId(problemId);
-        return problemExists.orElseGet(Problem::new);
+        if (problemExists.isEmpty()){
+            throw new CustomException("No problem with given id: "+problemId.toString()+" exists.");
+        }
+
+        return problemExists.get();
     }
 
     public List<Problem> getBySupervisor(String username){
@@ -36,14 +41,14 @@ public class ProblemService {
         return problemRepository.findByDifficulty(difficulty);
     }
 
-    public String createProblem(User user, Problem problem){
+    public String createProblem(User user, Problem problem) throws CustomException {
         if (!user.getRole().equals("SUPERVISOR")){
-            return "Only supervisors are allowed to post new problems";
+            throw new CustomException("Only supervisors are allowed to post new problems");
         }
         Optional<Supervisor> supervisorExists = supervisorRepository.
                 findByUsername(problem.getUploadedBy().getUsername());
         if (supervisorExists.isEmpty()){
-            return "Supervisor doesnt exist";
+            throw new CustomException("Supervisor doesnt exist");
         }
         problem.setProblemId(UUID.randomUUID());
         problem.setUploadedBy(supervisorExists.get());

@@ -1,5 +1,6 @@
 package com.app.backend.service;
 
+import com.app.backend.exception.CustomException;
 import com.app.backend.model.Student;
 import com.app.backend.model.Supervisor;
 import com.app.backend.model.User;
@@ -25,15 +26,15 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final JWTService jwtService;
 
-    public String register(User user){
+    public String register(User user) throws CustomException {
         Optional<User> usernameExists = userRepository.findByUsername(user.getUsername());
         Optional<User> emailExists = userRepository.findByEmail(user.getEmail());
 
         if (usernameExists.isPresent()){
-            return "Username exists";
+            throw new CustomException("Username exists");
         }
         if (emailExists.isPresent()){
-            return "Email exists";
+            throw new CustomException("Email exists");
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -60,10 +61,10 @@ public class AuthenticationService {
         return token;
     }
 
-    public String login(User user){
+    public String login(User user) throws CustomException {
         Optional<User> userExists = userRepository.findByUsername(user.getUsername());
         if (userExists.isEmpty()){
-            return "Failed authentication";
+            throw new CustomException("Invalid login data");
         }
 
         User savedUser = userExists.get();
