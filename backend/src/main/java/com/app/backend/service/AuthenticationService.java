@@ -64,7 +64,7 @@ public class AuthenticationService {
     public String login(User user) throws CustomException {
         Optional<User> userExists = userRepository.findByUsername(user.getUsername());
         if (userExists.isEmpty()){
-            throw new CustomException("Invalid login data");
+            throw new CustomException("Bad credentials");
         }
 
         User savedUser = userExists.get();

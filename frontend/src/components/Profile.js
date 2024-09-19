@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { useParams,useNavigate} from "react-router-dom";
+import { useParams,useNavigate, Link} from "react-router-dom";
 
 export default function Profile(){
     const [user,setUser]=React.useState({
@@ -34,6 +34,7 @@ export default function Profile(){
                 <li>Role: {user.role}</li>
                 <li>Organization: {user.school}</li>
             </ul>
+            <Link to="/problem">View all Problems</Link>
         </div>
     )
 }
