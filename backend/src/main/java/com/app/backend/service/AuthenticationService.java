@@ -1,6 +1,7 @@
 package com.app.backend.service;
 
 import com.app.backend.exception.CustomException;
+import com.app.backend.model.AuthResponse;
 import com.app.backend.model.Student;
 import com.app.backend.model.Supervisor;
 import com.app.backend.model.User;
@@ -26,7 +27,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final JWTService jwtService;
 
-    public String register(User user) throws CustomException {
+    public AuthResponse register(User user) throws CustomException {
         Optional<User> usernameExists = userRepository.findByUsername(user.getUsername());
         Optional<User> emailExists = userRepository.findByEmail(user.getEmail());
 
@@ -48,9 +49,10 @@ public class AuthenticationService {
             supervisor.setRole(user.getRole());
             supervisorRepository.save(supervisor);
         } else {
+            user.setRole("STUDENT");
             Student student = new Student();
             student.setSchool("University");
-            student.setRole("STUDENT");
+            student.setRole(user.getRole());
             student.setPassword(user.getPassword());
             student.setEmail(user.getEmail());
             student.setUsername(user.getUsername());
@@ -58,10 +60,10 @@ public class AuthenticationService {
         }
 
         String token = jwtService.generateToken(user);
-        return token;
+        return AuthResponse.builder().token(token).user(user).build();
     }
 
-    public String login(User user) throws CustomException {
+    public AuthResponse login(User user) throws CustomException {
         Optional<User> userExists = userRepository.findByUsername(user.getUsername());
         if (userExists.isEmpty()){
             throw new CustomException("Bad credentials");
@@ -76,6 +78,6 @@ public class AuthenticationService {
         );
 
         String token = jwtService.generateToken(user);
-        return token;
+        return AuthResponse.builder().token(token).user(user).build();
     }
 }

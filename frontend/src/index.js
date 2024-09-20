@@ -15,16 +15,6 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <App />
-        <Routes>
-          <Route path="/" element={<Home/>}/>
-          <Route path="/register" element={<Auth isRegistered={false}/>}/>
-          <Route path="/login" element={<Auth isRegistered={true} />}/>
-          <Route path="/profile/:username" element={<Profile/>}/>
-          <Route path="/problem">
-            <Route index element={<Problem/>}/>
-          </Route>
-          <Route path="/*" element={<NotFound/>}/>
-        </Routes>
       </BrowserRouter>
   </React.StrictMode>
 );

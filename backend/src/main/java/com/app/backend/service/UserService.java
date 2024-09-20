@@ -1,5 +1,6 @@
 package com.app.backend.service;
 
+import com.app.backend.exception.CustomException;
 import com.app.backend.model.User;
 import com.app.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +18,12 @@ public class UserService {
     public List<User> getAllUsers(){
         return userRepository.findAll();
     }
-    public Optional<User> getUserByUsername(String username){
-        return userRepository.findByUsername(username);
+    public User getUserByUsername(String username){
+        Optional<User> userExists = userRepository.findByUsername(username);
+        if (userExists.isEmpty()){
+            throw new CustomException("User with given username doesn't exist");
+        }
+        return userExists.get();
     }
     public void createUser(User user){
         userRepository.save(user);

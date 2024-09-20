@@ -8,11 +8,11 @@ export default function Problem(){
     const navigate = useNavigate()
 
     React.useEffect(()=>{
-        const url = "http://localhost:8080/api/v1/problem";
+        const url = `${process.env.REACT_APP_API_URL}/problem`;
 
         axios.get(url,{
             headers:{
-                Authorization:sessionStorage.getItem("Bearer Token")
+                Authorization:localStorage.getItem("token")
             }
         })
         .then(res=>{
