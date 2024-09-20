@@ -1,5 +1,6 @@
 package com.app.backend.config;
 
+import com.app.backend.filter.ExceptionHandlingFilter;
 import com.app.backend.filter.JWTFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +24,7 @@ public class SecurityConfig {
 
     private final AuthenticationProvider authenticationProvider;
     private final JWTFilter jwtFilter;
+    private final ExceptionHandlingFilter exceptionHandlingFilter;
 
     @Bean
     CorsConfigurationSource corsConfigurationSource(){
@@ -51,7 +53,8 @@ public class SecurityConfig {
                         (sessionManagement) -> sessionManagement
                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(exceptionHandlingFilter,JWTFilter.class);
 
         return httpSecurity.build();
     }
