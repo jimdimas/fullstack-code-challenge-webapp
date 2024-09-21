@@ -9,6 +9,7 @@ import NotFound from './components/NotFounds';
 import Problem from './components/Problem';
 import AuthorizedRoute from './routes/AuthorizedRoute';
 import PublicRoute from './routes/PublicRoute';
+import SolveProblem from './components/SolveProblem';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
               <Route path="/profile/:username" element={<Profile/>}/>
               <Route path="/problem">
                 <Route index element={<Problem/>}/>
+                <Route path=":problemId" element={<SolveProblem />}/>
               </Route>
             </Route>
             <Route path="/*" element={<NotFound/>}/>

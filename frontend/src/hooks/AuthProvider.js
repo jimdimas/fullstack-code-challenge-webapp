@@ -25,9 +25,11 @@ const AuthProvider = ({children})=>{
                 navigate('/',{replace:true})
             }
         } catch (err){
-            console.log(err)
-            navigate('/',{replace:true})
+            if (err.response){
+                if (err.response.status===400) alert(err.response.data.message)
+                else console.log(err)
         }
+     }
     }
 
     const logout = ()=>{
