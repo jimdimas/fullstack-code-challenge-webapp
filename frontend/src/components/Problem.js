@@ -2,44 +2,39 @@ import React from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import SingleProblem from './SingleProblem'
+import { useAuth } from '../hooks/AuthProvider'
+import { useApi } from '../hooks/useApi'
 
 export default function Problem(){
     const [problem,setProblem] = React.useState([])
-    const navigate = useNavigate()
+    const auth = useAuth()
+    const api = useApi()
 
     React.useEffect(()=>{
         const url = `${process.env.REACT_APP_API_URL}/problem`;
+        const headers = {
+                Authorization: auth.token
+        }   
 
-        axios.get(url,{
-            headers:{
-                Authorization:localStorage.getItem("token")
-            }
-        })
-        .then(res=>{
-            if (res.status==200){
-                setProblem(res.data)
-                
-            } else {
-                return navigate("/",{replace:true})
-            }
-        })
-        .catch(err=>{
-            console.log(err)
-            return navigate("/",{replace:true})
-        })    
+        api.request('get',url,headers).then((res)=>{
+            console.log(res)
+            setProblem(res.data)})
     },[])
-
-    const elements = problem.map(item=>(
-        <SingleProblem 
-        key={item.id}
-        username={item.uploadedBy.username}
-        question={item.question}
-        difficulty={item.difficulty}
-        />))
+    
+    let elements;
+    if (!api.isLoading) {
+        elements = problem.map(item=>(
+            <SingleProblem 
+                key={item.problemId}
+                username={item.uploadedBy.username}
+                question={item.question}
+                difficulty={item.difficulty}/>
+        ))
+    }
 
     return (
         <div>
-            {elements}
+            {api.isLoading?"Page is loading...":elements}
         </div>
     )
 }

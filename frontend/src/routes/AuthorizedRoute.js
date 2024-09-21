@@ -3,8 +3,8 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../hooks/AuthProvider";
 
 const AuthorizedRoute = () => {
-  const user = useAuth();
-  if (!user.token) return <Navigate to="/" />;
+  const auth = useAuth();
+  if (auth.token==='' || auth.username==='') return <Navigate to="/" />;
   return <Outlet />;
 };
 

@@ -8,16 +8,19 @@ import Profile from './components/Profile';
 import NotFound from './components/NotFounds';
 import Problem from './components/Problem';
 import AuthorizedRoute from './routes/AuthorizedRoute';
+import PublicRoute from './routes/PublicRoute';
 
 function App() {
   return (
     <div className="App">
-      <Header/>
       <AuthProvider>
+        <Header/>
         <Routes>
-            <Route path="/" element={<Home/>}/>
-            <Route path="/register" element={<Auth isRegistered={false}/>}/>
-            <Route path="/login" element={<Auth isRegistered={true} />}/>
+          <Route path="/" element={<Home/>}/>
+            <Route element={<PublicRoute />} >
+              <Route path="/register" element={<Auth isRegistered={false}/>}/>
+              <Route path="/login" element={<Auth isRegistered={true} />}/>
+            </Route>
             <Route element={<AuthorizedRoute />}>
               <Route path="/profile/:username" element={<Profile/>}/>
               <Route path="/problem">

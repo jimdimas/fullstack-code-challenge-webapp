@@ -3,44 +3,24 @@ import axios from "axios";
 import { useParams,useNavigate} from "react-router-dom";
 import ProfileInfo from "./ProfileInfo";
 import NotFound from "./NotFounds";
+import { useAuth } from "../hooks/AuthProvider";
+import { useApi } from "../hooks/useApi";
 
 export default function Profile(){
-    const [user,setUser]=React.useState({
-        username:"",
-        email:"",
-        role:"",
-        organization:""
-    })
-    const [authenticated,setAuthenticated] = React.useState(false)
-    const [userExists,setUserExists] = React.useState(false)
+    const auth = useAuth()
+    const [userInfo,setUserInfo] = React.useState()
     const {username} = useParams()
-    const navigate=useNavigate()
+    const api = useApi()
 
     React.useEffect(()=>{
-        const url=`http://localhost:8080/api/v1/user/${username}`;
-        axios.get(url,{
-                headers:{
-                    "Authorization":localStorage.getItem("token")
-                }
-            }
-        ).then(res=>{
-            if (res.status===200 || res.status===400) 
-                {
-                    setAuthenticated(true)
-                    if (res.status==200){
-                        setUserExists(true)
-                        setUser(res.data)
-                    }
-                } 
-        }
-        ).catch(err=>{
-            if (err.status===400){
-                setAuthenticated(true)
-                return
-            }
-            console.log(err)
-        })
+        const url = `${process.env.REACT_APP_API_URL}/user/${username}`
+    
+        const headers = { Authorization: auth.token }
+        api.request('get',url,headers).then(res=>{
+            console.log(res)
+            setUserInfo(res.data)})
+        
     },[])
 
-    return authenticated?(userExists?<ProfileInfo {...user}/>:<NotFound message="user"/>):navigate("/",{replace:true})
+    return (api.isLoading?<>"Loading..."</>:<ProfileInfo {...userInfo}/>)
 }

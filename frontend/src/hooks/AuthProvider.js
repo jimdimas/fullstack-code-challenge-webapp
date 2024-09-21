@@ -1,12 +1,12 @@
-import {useContext , createContext , useState } from 'react'
+import {useContext , createContext , useState , useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 const AuthContext = createContext();
 
 const AuthProvider = ({children})=>{
-    const [user,setUser] = useState()
-    const [token,setToken] = useState(localStorage.getItem("token") || null)
+    const [username,setUsername] = useState(localStorage.getItem('username') || '')
+    const [token,setToken] = useState(localStorage.getItem('token') || '')
     const navigate = useNavigate()
 
     const access = async(credentials,isRegistered)=>{
@@ -15,11 +15,11 @@ const AuthProvider = ({children})=>{
             const res = await axios.post(url,credentials)
 
             if (res.status===200){
-                setUser(res.data.user)
+                setUsername(res.data.user.username)
                 setToken(res.data.token)
-                console.log(res.data)
-                localStorage.setItem("token",token)
-                navigate(`/profile/${user.username}`,{replace:true})
+                localStorage.setItem('username',res.data.user.username)
+                localStorage.setItem('token',res.data.token)
+                navigate(`/profile/${res.data.user.username}`,{replace:true})
                 return;
             } else {
                 navigate('/',{replace:true})
@@ -30,8 +30,16 @@ const AuthProvider = ({children})=>{
         }
     }
 
+    const logout = ()=>{
+        localStorage.removeItem('username')
+        localStorage.removeItem('token')
+        setUsername('')
+        setToken('')
+        navigate('/',{replace:true})
+    }
+
     return (
-        <AuthContext.Provider value={{ user , token , access}}>
+        <AuthContext.Provider value={{ username , token , access , logout}}>
           {children}
         </AuthContext.Provider>)
 }

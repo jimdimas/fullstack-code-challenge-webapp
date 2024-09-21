@@ -77,7 +77,7 @@ public class AuthenticationService {
                 )
         );
 
-        String token = jwtService.generateToken(user);
-        return AuthResponse.builder().token(token).user(user).build();
+        String token = jwtService.generateToken(savedUser);
+        return AuthResponse.builder().token(token).user(savedUser).build();
     }
 }

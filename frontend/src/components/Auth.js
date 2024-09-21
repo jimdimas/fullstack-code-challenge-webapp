@@ -11,7 +11,6 @@ export default function Auth(props){
     })
     const auth = useAuth()
     
-
     function handleChange(event){
         const {name,value,type,checked} = event.target
 
