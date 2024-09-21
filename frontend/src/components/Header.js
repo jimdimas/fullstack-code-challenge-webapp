@@ -9,6 +9,7 @@ export default function Header(){
         (<>
             <Link to="/problem"> View all Problems </Link>
             <Link to={`/profile/${auth.username}`}> My Profile </Link>
+            <Link to={`/profile/${auth.username}/solutions`}>My Solutions</Link>
             <button onClick={() => auth.logout()}> Logout </button>
         </>):
         (<>

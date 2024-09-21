@@ -49,6 +49,7 @@ public class SolutionService {
         if (studentExists.isEmpty()){
             throw new CustomException("Something went wrong,try again");
         }
+        solution.setSolutionId(UUID.randomUUID());
         solution.setSolvedAt(new Date());
         solution.setForProblem(problemExists.get());
         solution.setSolvedBy(studentExists.get());

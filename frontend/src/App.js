@@ -10,6 +10,7 @@ import Problem from './components/Problem';
 import AuthorizedRoute from './routes/AuthorizedRoute';
 import PublicRoute from './routes/PublicRoute';
 import SolveProblem from './components/SolveProblem';
+import Solution from './components/Solution';
 
 function App() {
   return (
@@ -23,10 +24,16 @@ function App() {
               <Route path="/login" element={<Auth isRegistered={true} />}/>
             </Route>
             <Route element={<AuthorizedRoute />}>
-              <Route path="/profile/:username" element={<Profile/>}/>
+              <Route path="/profile/:username">
+                <Route index element={<Profile />}/>
+                <Route path="solutions" element={<Solution profile={true}/>}/>
+              </Route>
               <Route path="/problem">
                 <Route index element={<Problem/>}/>
-                <Route path=":problemId" element={<SolveProblem />}/>
+                <Route path=":problemId">
+                  <Route index element={<SolveProblem />}/>
+                  <Route path="solutions" element={<Solution problem={true}/>}/>
+                </Route>
               </Route>
             </Route>
             <Route path="/*" element={<NotFound/>}/>

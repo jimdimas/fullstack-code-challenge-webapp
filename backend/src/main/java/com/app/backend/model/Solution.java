@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Data
 @Builder
@@ -28,6 +29,7 @@ public class Solution {
     )
     @JsonIgnore
     private Integer id;
+    private UUID solutionId;
     @ManyToOne(fetch = FetchType.EAGER)
     private Student solvedBy;
     private String content;
