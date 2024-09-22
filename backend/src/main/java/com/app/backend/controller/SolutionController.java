@@ -34,4 +34,11 @@ public class SolutionController {
             @RequestBody Solution solution) throws CustomException {
         return solutionService.postSolution(user,problemId,solution);
     }
+
+    @PostMapping(path="/solution/{solutionId}")
+    public String gradeSolution(
+            @RequestAttribute(name="user") User user,
+            @PathVariable UUID solutionId){
+        return solutionService.gradeSolution(user,solutionId);
+    }
 }

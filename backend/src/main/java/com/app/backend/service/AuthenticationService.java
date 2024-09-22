@@ -56,6 +56,7 @@ public class AuthenticationService {
             student.setPassword(user.getPassword());
             student.setEmail(user.getEmail());
             student.setUsername(user.getUsername());
+            student.setRanking(0);
             studentRepository.save(student);
         }
 

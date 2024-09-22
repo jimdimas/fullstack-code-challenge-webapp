@@ -35,4 +35,6 @@ public class Problem {
     private String difficulty;
     private String question;
     private Date expiresAt;
+    private Integer points;
+    private Integer untilRanking;
 }

@@ -8,6 +8,7 @@ import com.app.backend.repository.ProblemRepository;
 import com.app.backend.repository.SupervisorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestAttribute;
 
 import java.util.List;
 import java.util.Optional;
@@ -46,12 +47,13 @@ public class ProblemService {
             throw new CustomException("Only supervisors are allowed to post new problems");
         }
         Optional<Supervisor> supervisorExists = supervisorRepository.
-                findByUsername(problem.getUploadedBy().getUsername());
+                findByUsername(user.getUsername());
         if (supervisorExists.isEmpty()){
             throw new CustomException("Supervisor doesnt exist");
         }
         problem.setProblemId(UUID.randomUUID());
         problem.setUploadedBy(supervisorExists.get());
+        problem.setUntilRanking(10*problem.getPoints());
         problemRepository.save(problem);
         return "Problem Uploaded";
     }

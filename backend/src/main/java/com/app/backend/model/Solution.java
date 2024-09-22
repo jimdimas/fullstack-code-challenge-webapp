@@ -34,7 +34,7 @@ public class Solution {
     private Student solvedBy;
     private String content;
     private Date solvedAt;
-    private Integer rating;
+    private Boolean accepted;
     @ManyToOne(fetch = FetchType.EAGER)
     private Problem forProblem;
 }

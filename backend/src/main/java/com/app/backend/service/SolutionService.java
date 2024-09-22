@@ -8,8 +8,9 @@ import com.app.backend.model.User;
 import com.app.backend.repository.ProblemRepository;
 import com.app.backend.repository.SolutionRepository;
 import com.app.backend.repository.StudentRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -24,6 +25,7 @@ public class SolutionService {
     private final SolutionRepository solutionRepository;
     private final ProblemRepository problemRepository;
     private final StudentRepository studentRepository;
+    private final StudentService studentService;
 
     public List<Solution> getProblemSolutions(UUID problemId){
         return solutionRepository.findByProblem(problemId);
@@ -55,5 +57,18 @@ public class SolutionService {
         solution.setSolvedBy(studentExists.get());
         solutionRepository.save(solution);
         return "solution uploaded succesfully";
+    }
+
+    public String gradeSolution(User gradedBy,UUID solutionId){
+        if (!gradedBy.getRole().equals("SUPERVISOR")) throw new CustomException("Unable to perform action");
+
+        Optional<Solution> solutionExists = solutionRepository.findBySolutionId(solutionId);
+        if (solutionExists.isEmpty()) throw new CustomException("Solution with id "+solutionId.toString()+" doesnt exist");
+
+        Solution solution = solutionExists.get();
+        solution.setAccepted(true);
+        solutionRepository.save(solution);
+        studentService.updateStudentRanking(solution.getSolvedBy(),solution);
+        return "Solution has been graded";
     }
 }

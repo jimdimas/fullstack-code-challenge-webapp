@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -16,4 +17,7 @@ public interface SolutionRepository extends JpaRepository<Solution,Integer> {
 
     @Query("select s from Solution s where s.solvedBy.username=?1")
     List<Solution> findByStudent(String username);
+
+    @Query("select s from Solution  s where s.solutionId=?1")
+    Optional<Solution> findBySolutionId(UUID solutionId);
 }
