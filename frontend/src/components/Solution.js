@@ -30,6 +30,7 @@ export default function Solution(props){
         result = solutions.map(solution=>{
         return <SingleSolution
             key={solution.solutionId}
+            solutionId={solution.solutionId}
             showUser={Object.hasOwn(props,'problem')}
             {...solution}      
         />

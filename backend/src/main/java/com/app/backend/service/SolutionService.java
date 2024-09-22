@@ -28,7 +28,7 @@ public class SolutionService {
     private final StudentService studentService;
 
     public List<Solution> getProblemSolutions(UUID problemId){
-        return solutionRepository.findByProblem(problemId);
+        return solutionRepository.findByProblemUnsolved(problemId);
     }
 
     public List<Solution> getStudentSolutions(String username){
@@ -55,6 +55,7 @@ public class SolutionService {
         solution.setSolvedAt(new Date());
         solution.setForProblem(problemExists.get());
         solution.setSolvedBy(studentExists.get());
+        solution.setAccepted(false);
         solutionRepository.save(solution);
         return "solution uploaded succesfully";
     }
