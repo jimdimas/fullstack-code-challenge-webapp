@@ -16,7 +16,7 @@ public interface SolutionRepository extends JpaRepository<Solution,Integer> {
     List<Solution> findByProblem(UUID problemId);
 
     @Query("select s from Solution s where s.forProblem.problemId=?1 and s.accepted is false")
-    List<Solution> findByProblemUnsolved(UUID problemiD);
+    List<Solution> findByProblemUnsolved(UUID problemId);
     @Query("select s from Solution s where s.solvedBy.username=?1")
     List<Solution> findByStudent(String username);
 

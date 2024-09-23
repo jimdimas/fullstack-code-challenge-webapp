@@ -8,7 +8,6 @@ import com.app.backend.model.User;
 import com.app.backend.repository.ProblemRepository;
 import com.app.backend.repository.SolutionRepository;
 import com.app.backend.repository.StudentRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -60,16 +59,21 @@ public class SolutionService {
         return "solution uploaded succesfully";
     }
 
-    public String gradeSolution(User gradedBy,UUID solutionId){
+    public String reviewSolution(User gradedBy, UUID solutionId,Boolean result){
         if (!gradedBy.getRole().equals("SUPERVISOR")) throw new CustomException("Unable to perform action");
 
         Optional<Solution> solutionExists = solutionRepository.findBySolutionId(solutionId);
         if (solutionExists.isEmpty()) throw new CustomException("Solution with id "+solutionId.toString()+" doesnt exist");
 
         Solution solution = solutionExists.get();
-        solution.setAccepted(true);
-        solutionRepository.save(solution);
-        studentService.updateStudentRanking(solution.getSolvedBy(),solution);
-        return "Solution has been graded";
+        if (result){
+            solution.setAccepted(true);
+            solutionRepository.save(solution);
+            studentService.updateStudentRanking(solution);
+            return "Solution has been accepted";
+        } else {
+            solutionRepository.delete(solution);
+            return "Solution has been rejected";
+        }
     }
 }

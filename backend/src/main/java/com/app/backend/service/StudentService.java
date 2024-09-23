@@ -16,7 +16,8 @@ public class StudentService {
     private final StudentRepository studentRepository;
     private final SolutionRepository solutionRepository;
 
-    public String updateStudentRanking(Student student,Solution solution){
+    public String updateStudentRanking(Solution solution){
+        Student student = solution.getSolvedBy();
         student.setRanking(student.getRanking()+solution.getForProblem().getPoints());
         studentRepository.save(student);
         return "Student ranking updated";

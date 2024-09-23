@@ -36,9 +36,10 @@ public class SolutionController {
     }
 
     @PostMapping(path="/solution/{solutionId}")
-    public String gradeSolution(
+    public String reviewSolution(
             @RequestAttribute(name="user") User user,
-            @PathVariable UUID solutionId){
-        return solutionService.gradeSolution(user,solutionId);
+            @PathVariable UUID solutionId,
+            @RequestParam(name="result") Boolean result){
+        return solutionService.reviewSolution(user,solutionId,result);
     }
 }
