@@ -1,6 +1,7 @@
 import React from "react";
 import { useAuth } from "../hooks/AuthProvider";
 import { useApi } from "../hooks/useApi";
+import { Link } from "react-router-dom";
 
 export default function SingleSolution(props){
     const auth = useAuth()
@@ -20,12 +21,14 @@ export default function SingleSolution(props){
     },[submit])
 
     return (
-        <p> {!props.showUser?props.forProblem.question:''} 
-        {props.content} 
-        {props.showUser?props.solvedBy.username:''}
+        <tr>
+        {!props.showUser?props.forProblem.question:''} 
+        <td>{props.content} </td>
+        <td>{props.solvedAt}</td>
+        {props.showUser?<td>{props.solvedBy.username}</td>:''}
         {auth.role==='SUPERVISOR'?
-        <><button onClick={()=>{setAccept(true); setSubmit(true); window.location.reload()}}>Accept</button>
-        <button onClick={()=>{setAccept(false); setSubmit(true); window.location.reload()}}>Reject</button></>:''}
-        </p>
+        <><td><Link onClick={()=>{setAccept(true); setSubmit(true); window.location.reload()}}>Accept</Link></td>
+        <td><Link onClick={()=>{setAccept(false); setSubmit(true); window.location.reload()}}>Reject</Link></td></>:''}
+        </tr>
     )
 }

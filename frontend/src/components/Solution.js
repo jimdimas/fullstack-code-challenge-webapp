@@ -2,12 +2,14 @@ import React from 'react'
 import { useApi } from '../hooks/useApi'
 import { useNavigate , useParams } from 'react-router-dom'
 import SingleSolution from './SingleSolution'
+import { useAuth } from '../hooks/AuthProvider'
 
 export default function Solution(props){
     const [solutions,setSolutions] = React.useState()
     const navigate = useNavigate()
     const api = useApi()
     const params = useParams()
+    const auth = useAuth()
 
     React.useEffect(()=>{
         let uri;
@@ -24,10 +26,10 @@ export default function Solution(props){
         })
     },[])
 
-    let result;
+    let elements;
     
     if (!api.isLoading){
-        result = solutions.map(solution=>{
+        elements = solutions.map(solution=>{
         return <SingleSolution
             key={solution.solutionId}
             solutionId={solution.solutionId}
@@ -37,7 +39,27 @@ export default function Solution(props){
     })}
     return (api.isLoading?<>Loading...</>:
         <div>
-            {result}
+            <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                <div class="table-responsive" data-pattern="priority-columns">
+                    <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Solution</th>
+                            <th data-priority="1">Uploaded at</th>
+                            {Object.hasOwn(props,'problem')?<th data-priority="2">User</th>:''}
+                            {auth.role==='SUPERVISOR'?<><th></th><th></th></>:''}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {elements}
+                    </tbody>
+                    </table>
+                </div>
+                </div>
+            </div>
+            </div>
         </div>
     )
 }

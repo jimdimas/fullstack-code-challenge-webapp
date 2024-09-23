@@ -1,15 +1,16 @@
 import React from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useAuth } from "../hooks/AuthProvider"
 
 export default function SingleProblem(props){
     const auth = useAuth()
-
-    return (
-        <p>{props.question} , 
-        {props.username} , 
-        {props.difficulty} , 
-        {auth.role==='STUDENT'?<Link to={`/problem/${props.problemId}`}> Solve</Link>:''} , 
-        {<Link to={`/problem/${props.problemId}/solutions`}> Solutions</Link>}</p>
+    const navigate = useNavigate()
+    return (<tr>
+            <td>{props.question}</td>
+            <td>{props.difficulty} </td>
+            <td>{props.points} </td> 
+            {auth.role==='STUDENT'?<td><Link to={`/problem/${props.problemId}`}> Solve </Link></td>:''}
+            <td>{<Link to={`/problem/${props.problemId}/solutions`}> Solutions</Link>}</td>
+        </tr>
     )
 }
