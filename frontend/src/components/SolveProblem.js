@@ -56,9 +56,9 @@ export default function SolveProblem(){
     return (api.isLoading?<>Loading...</>:
         <div>
             <form onSubmit={onSubmit}>
+                <br></br>
                 <h2>{problem.question}</h2>
-                <label htmlFor="content" >Write solution: </label>
-                <input id="content" name="content" type="text" onChange={handleChange} value={solution.content}/>
+                <textarea id="content" name="content" type="text" onChange={handleChange} value={solution.content} rows="4" cols="50"/>
                 <br/>
                 <button>Submit Solution</button>
             </form>

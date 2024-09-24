@@ -13,7 +13,8 @@ export default function Problem(){
         const url = '/problem';   
 
         api.request('get',url,true).then((res)=>{
-            setProblem(res.data)})
+            setProblem(res.data)
+        })
     },[])
     
     let elements;
@@ -24,7 +25,9 @@ export default function Problem(){
                 problemId={item.problemId}
                 username={item.uploadedBy.username}
                 question={item.question}
-                difficulty={item.difficulty}/>
+                difficulty={item.difficulty}
+                points={item.points}
+                />
         ))
     }
 

@@ -3,6 +3,7 @@ import { useApi } from '../hooks/useApi'
 import { useNavigate , useParams } from 'react-router-dom'
 import SingleSolution from './SingleSolution'
 import { useAuth } from '../hooks/AuthProvider'
+import '../css/table.css'
 
 export default function Solution(props){
     const [solutions,setSolutions] = React.useState()
@@ -46,6 +47,7 @@ export default function Solution(props){
                     <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
+                            {Object.hasOwn(props,'profile')?<th>Question</th>:''}
                             <th>Solution</th>
                             <th data-priority="1">Uploaded at</th>
                             {Object.hasOwn(props,'problem')?<th data-priority="2">User</th>:''}

@@ -2,6 +2,7 @@ import React from "react";
 import { useAuth } from "../hooks/AuthProvider";
 import { useApi } from "../hooks/useApi";
 import { Link } from "react-router-dom";
+import '../css/table.css'
 
 export default function SingleSolution(props){
     const auth = useAuth()
@@ -22,7 +23,7 @@ export default function SingleSolution(props){
 
     return (
         <tr>
-        {!props.showUser?props.forProblem.question:''} 
+        {!props.showUser?<td>{props.forProblem.question}</td>:''} 
         <td>{props.content} </td>
         <td>{props.solvedAt}</td>
         {props.showUser?<td>{props.solvedBy.username}</td>:''}
