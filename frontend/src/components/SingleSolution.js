@@ -17,19 +17,25 @@ export default function SingleSolution(props){
             api.request('post',uri,true).then(res=>{
                 console.log('accepted')
                 setAccept(false)
+                window.location.reload()
             })
         }
     },[submit])
+
 
     return (
         <tr>
         {!props.showUser?<td>{props.forProblem.question}</td>:''} 
         <td>{props.content} </td>
         <td>{props.solvedAt}</td>
+        {auth.role==='STUDENT'?<>
+            <td>{props.points}</td>
+            <td>{props.isAccepted}</td>
+            </>:''}
         {props.showUser?<td>{props.solvedBy.username}</td>:''}
         {auth.role==='SUPERVISOR'?
-        <><td><Link onClick={()=>{setAccept(true); setSubmit(true); window.location.reload()}}>Accept</Link></td>
-        <td><Link onClick={()=>{setAccept(false); setSubmit(true); window.location.reload()}}>Reject</Link></td></>:''}
+        <><td><Link onClick={()=>{setAccept(true); setSubmit(true);}}>Accept</Link></td>
+        <td><Link onClick={()=>{setAccept(false); setSubmit(true);}}>Reject</Link></td></>:''}
         </tr>
     )
 }

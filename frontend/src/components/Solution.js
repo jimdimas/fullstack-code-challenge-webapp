@@ -35,6 +35,8 @@ export default function Solution(props){
             key={solution.solutionId}
             solutionId={solution.solutionId}
             showUser={Object.hasOwn(props,'problem')}
+            points={solution.forProblem.points}
+            isAccepted={solution.accepted?"Accepted":"Rejected"}
             {...solution}      
         />
     })}
@@ -50,6 +52,7 @@ export default function Solution(props){
                             {Object.hasOwn(props,'profile')?<th>Question</th>:''}
                             <th>Solution</th>
                             <th data-priority="1">Uploaded at</th>
+                            {Object.hasOwn(props,'profile')?<><th>Points</th><th>Result</th></>:''}
                             {Object.hasOwn(props,'problem')?<th data-priority="2">User</th>:''}
                             {auth.role==='SUPERVISOR'?<><th></th><th></th></>:''}
                         </tr>

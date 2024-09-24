@@ -43,6 +43,7 @@ public class AuthenticationService {
         if (user.getEmail().contains("supervisor")){
             user.setRole("SUPERVISOR");
             Supervisor supervisor= new Supervisor();
+            supervisor.setOrganization("University");
             supervisor.setEmail(user.getEmail());
             supervisor.setPassword(user.getPassword());
             supervisor.setUsername(user.getUsername());

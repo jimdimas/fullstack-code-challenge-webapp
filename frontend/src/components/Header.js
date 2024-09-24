@@ -33,7 +33,7 @@ export default function Header(){
                 <span></span>
             </button>
             <a href="#">
-                <Link to="/"><h4>My<span>App</span></h4></Link>
+                <Link to="/"><h4>Code<span>Challenge</span></h4></Link>
             </a>
             </div>
 

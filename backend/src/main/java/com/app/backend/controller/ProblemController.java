@@ -27,6 +27,11 @@ public class ProblemController {
         return problemService.getByProblemId(problemId);
     }
 
+    @GetMapping("/suggested")
+    public Problem getSuggestedProblem(@RequestAttribute(name="user") User user){
+        return problemService.getSuggestedProblems(user);
+    }
+
     @PostMapping
     public String postProblem(
             @RequestAttribute(name="user") User user,

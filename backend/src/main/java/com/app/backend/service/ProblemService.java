@@ -1,18 +1,16 @@
 package com.app.backend.service;
 
 import com.app.backend.exception.CustomException;
-import com.app.backend.model.Problem;
-import com.app.backend.model.Supervisor;
-import com.app.backend.model.User;
+import com.app.backend.model.*;
 import com.app.backend.repository.ProblemRepository;
+import com.app.backend.repository.SolutionRepository;
+import com.app.backend.repository.StudentRepository;
 import com.app.backend.repository.SupervisorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestAttribute;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,9 +18,73 @@ public class ProblemService {
 
     private final ProblemRepository problemRepository;
     private final SupervisorRepository supervisorRepository;
+    private final StudentRepository studentRepository;
+    private final SolutionRepository solutionRepository;
 
     public List<Problem> getAllProblems(){
-        return problemRepository.findAll();
+        return problemRepository.findAll().stream().sorted(Comparator.comparing(Problem::getPoints)).toList();
+    }
+
+    public Problem getSuggestedProblems(User user){
+        Optional<Student> studentExists = studentRepository.findByUsername(user.getUsername());
+
+        if (studentExists.isEmpty()){
+            throw new CustomException("Cannot perform action");
+        }
+        Student student = studentExists.get();
+
+        List<Problem> problems = problemRepository.findAll();
+        List<Problem> suggestedProblems = new ArrayList<>();
+
+        for (int i=0; i<problems.size(); i++){
+            Optional<Solution> hasSolved = solutionRepository.findIfUserSolved(
+                    problems.get(i).getProblemId(),
+                    user.getUsername());
+            if (hasSolved.isEmpty()){
+                suggestedProblems.add(problems.get(i));
+            }
+        }
+
+        HashMap<Problem,Double> problemSuggestionProb = new HashMap<>();
+        for (int i=0; i<suggestedProblems.size(); i++){
+            Problem tempProblem = suggestedProblems.get(i);
+
+            Integer successes = tempProblem.
+                    getSolutions().
+                    stream().
+                    filter(Solution::getAccepted).
+                    toList().
+                    size();
+            problemSuggestionProb.put(tempProblem,
+                    (1.0*(tempProblem.getPoints()/((successes+1))*(tempProblem.getSolutions().size()-successes+1))));
+        }
+
+        HashMap<Problem,Double> sortedProblems = problemSuggestionProb.entrySet()
+                .stream()
+                .sorted(Comparator.comparing(Map.Entry::getValue))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1, LinkedHashMap::new));
+
+        List<Problem> result = new ArrayList<>();
+
+        for (Map.Entry<Problem, Double> en :
+                sortedProblems.entrySet()) {
+            result.add(en.getKey());
+        }
+
+        List<Solution> studentSolutions = solutionRepository.findByStudent(student.getUsername());
+
+        Double scaleStudentBySuccess = (studentSolutions.
+                stream().
+                filter(Solution::getAccepted).
+                toList().
+                size()*1.0 / (studentSolutions.size() + 1) - 0.5);
+
+        Integer getSuggestedProblem = (int) (
+                ((student.getRanking()+student.getRanking()*scaleStudentBySuccess)/2500)*suggestedProblems.size());
+        return suggestedProblems.get(getSuggestedProblem);
     }
 
     public Problem getByProblemId(UUID problemId) throws CustomException {

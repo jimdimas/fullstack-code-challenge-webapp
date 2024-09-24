@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -37,4 +38,7 @@ public class Problem {
     private Date expiresAt;
     private Integer points;
     private Integer untilRanking;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Solution> solutions;
 }

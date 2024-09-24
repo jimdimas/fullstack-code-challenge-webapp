@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 public class Student extends User{
 
     private String school;
+    private String level;
     private Integer ranking;
 }

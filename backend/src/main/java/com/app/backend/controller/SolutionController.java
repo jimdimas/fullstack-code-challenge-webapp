@@ -18,8 +18,10 @@ public class SolutionController {
     private final SolutionService solutionService;
 
     @GetMapping(path = "/problem/{problemId}/solutions")
-    public List<Solution> getProblemSolutions(@PathVariable(name="problemId") UUID problemId){
-        return solutionService.getProblemSolutions(problemId);
+    public List<Solution> getProblemSolutions(
+            @RequestAttribute(name="user") User user,
+            @PathVariable(name="problemId") UUID problemId){
+        return solutionService.getProblemSolutions(user,problemId);
     }
 
     @GetMapping(path="/student/{username}/solutions")

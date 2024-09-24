@@ -12,6 +12,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @ControllerAdvice
 public class ExceptionController extends ResponseEntityExceptionHandler {
@@ -22,6 +24,8 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
             WebRequest request
     ){
         CustomError error = new CustomError(new Date(),exception.getMessage());
+        Logger logger = Logger.getAnonymousLogger();
+        logger.log(Level.SEVERE,"An exception was thrown.",exception);
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
@@ -31,6 +35,8 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
             WebRequest request
     ){
         CustomError error = new CustomError(new Date(),exception.getMessage());
+        Logger logger = Logger.getAnonymousLogger();
+        logger.log(Level.SEVERE,"An exception was thrown.",exception);
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 

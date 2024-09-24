@@ -26,8 +26,11 @@ public class SolutionService {
     private final StudentRepository studentRepository;
     private final StudentService studentService;
 
-    public List<Solution> getProblemSolutions(UUID problemId){
-        return solutionRepository.findByProblemUnsolved(problemId);
+    public List<Solution> getProblemSolutions(User user,UUID problemId){
+        if (user.getRole().equals("SUPERVISOR")){
+            return solutionRepository.findByProblemUnsolved(problemId);
+        }
+        return solutionRepository.findByProblemSolved(problemId);
     }
 
     public List<Solution> getStudentSolutions(String username){
@@ -54,7 +57,6 @@ public class SolutionService {
         solution.setSolvedAt(new Date());
         solution.setForProblem(problemExists.get());
         solution.setSolvedBy(studentExists.get());
-        solution.setAccepted(false);
         solutionRepository.save(solution);
         return "solution uploaded succesfully";
     }
@@ -72,7 +74,8 @@ public class SolutionService {
             studentService.updateStudentRanking(solution);
             return "Solution has been accepted";
         } else {
-            solutionRepository.delete(solution);
+            solution.setAccepted(false);
+            solutionRepository.save(solution);
             return "Solution has been rejected";
         }
     }
