@@ -26,7 +26,9 @@ public class UserController {
     }
 
     @PostMapping()
-    public void createUser(@RequestBody User user){
-        userService.createUser(user);
+    public void createUser(
+            @RequestAttribute(name="user") User requestedBy,
+            @RequestBody User user){
+        userService.createUser(requestedBy,user);
     }
 }

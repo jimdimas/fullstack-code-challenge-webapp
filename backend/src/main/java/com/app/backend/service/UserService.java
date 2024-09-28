@@ -3,6 +3,7 @@ package com.app.backend.service;
 import com.app.backend.exception.CustomException;
 import com.app.backend.model.User;
 import com.app.backend.repository.UserRepository;
+import com.app.backend.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final UserUtil userUtil;
 
     public List<User> getAllUsers(){
         return userRepository.findAll();
@@ -25,7 +27,19 @@ public class UserService {
         }
         return userExists.get();
     }
-    public void createUser(User user){
-        userRepository.save(user);
+    public void createUser(User requestingUser,User user){
+        if (!requestingUser.getRole().equals("ADMIN")){
+            throw new CustomException("Unable to perfom action");
+        }
+        Optional<User> usernameExists = userRepository.findByUsername(user.getUsername());
+        if (usernameExists.isPresent()){
+            throw new CustomException("Username already exists");
+        }
+        Optional<User> emailExists = userRepository.findByEmail(user.getEmail());
+        if (emailExists.isPresent()){
+            throw new CustomException("Email already exists");
+        }
+
+        userUtil.setupUserRegister(user);
     }
 }
