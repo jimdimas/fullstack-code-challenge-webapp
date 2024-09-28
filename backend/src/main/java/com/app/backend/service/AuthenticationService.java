@@ -1,10 +1,8 @@
 package com.app.backend.service;
 
 import com.app.backend.exception.CustomException;
-import com.app.backend.model.AuthResponse;
-import com.app.backend.model.Student;
-import com.app.backend.model.Supervisor;
-import com.app.backend.model.User;
+import com.app.backend.model.*;
+import com.app.backend.repository.AdminRepository;
 import com.app.backend.repository.StudentRepository;
 import com.app.backend.repository.SupervisorRepository;
 import com.app.backend.repository.UserRepository;
@@ -14,6 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -23,6 +22,7 @@ public class AuthenticationService {
     private final UserRepository userRepository;
     private final SupervisorRepository supervisorRepository;
     private final StudentRepository studentRepository;
+    private final AdminRepository adminRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JWTService jwtService;
@@ -39,30 +39,10 @@ public class AuthenticationService {
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        if (user.getEmail().contains("supervisor")){
-            user.setRole("SUPERVISOR");
-            Supervisor supervisor= new Supervisor();
-            supervisor.setOrganization("University");
-            supervisor.setEmail(user.getEmail());
-            supervisor.setPassword(user.getPassword());
-            supervisor.setUsername(user.getUsername());
-            supervisor.setRole(user.getRole());
-            supervisorRepository.save(supervisor);
-        } else {
-            user.setRole("STUDENT");
-            Student student = new Student();
-            student.setSchool("University");
-            student.setRole(user.getRole());
-            student.setPassword(user.getPassword());
-            student.setEmail(user.getEmail());
-            student.setUsername(user.getUsername());
-            student.setRanking(0);
-            studentRepository.save(student);
-        }
+        User userWithRole = setupUserRegister(user);
 
         String token = jwtService.generateToken(user);
-        return AuthResponse.builder().token(token).user(user).build();
+        return AuthResponse.builder().token(token).user(userWithRole).build();
     }
 
     public AuthResponse login(User user) throws CustomException {
@@ -81,5 +61,43 @@ public class AuthenticationService {
 
         String token = jwtService.generateToken(savedUser);
         return AuthResponse.builder().token(token).user(savedUser).build();
+    }
+
+    private User setupUserRegister(User user){
+        if (user.getEmail().contains("admin")){
+            user.setRole("ADMIN");
+            Admin admin = Admin.builder().
+                    username(user.getUsername()).
+                    password(user.getPassword()).
+                    email(user.getEmail()).
+                    role("ADMIN").
+                    createdAt(new Date()).
+                    license("COMMON").
+                    build();
+            adminRepository.save(admin);
+        } else if (user.getEmail().contains("supervisor")){
+            user.setRole("SUPERVISOR");
+            Supervisor supervisor = Supervisor.builder().
+                    username(user.getUsername()).
+                    password(user.getPassword()).
+                    email(user.getEmail()).
+                    role("SUPERVISOR").
+                    organization("University").
+                    expertise("Coding").
+                    build();
+            supervisorRepository.save(supervisor);
+        } else {
+            user.setRole("STUDENT");
+            Student student = Student.builder().
+                    username(user.getUsername()).
+                    password(user.getPassword()).
+                    email(user.getEmail()).
+                    role("STUDENT").
+                    level("Beginner").
+                    ranking(0).
+                    build();
+            studentRepository.save(student);
+        }
+        return user;
     }
 }
