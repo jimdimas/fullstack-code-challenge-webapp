@@ -12,6 +12,8 @@ import PublicRoute from './routes/PublicRoute';
 import SolveProblem from './components/SolveProblem';
 import Solution from './components/Solution';
 import UploadProblem from './components/UploadProblem';
+import AdminRoute from './routes/AdminRoute';
+import Users from './components/Users';
 
 function App() {
   return (
@@ -36,6 +38,10 @@ function App() {
                   <Route index element={<SolveProblem />}/>
                   <Route path="solutions" element={<Solution problem={true}/>}/>
                 </Route>
+              </Route>
+              <Route element={<AdminRoute/>}>
+                <Route path="/students" element={<Users mode="STUDENT"/>}/>
+                <Route path="/supervisors" element={<Users mode="SUPERVISOR"/>}/>
               </Route>
             </Route>
             <Route path="/*" element={<NotFound/>}/>
