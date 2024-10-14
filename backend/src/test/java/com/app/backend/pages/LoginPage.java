@@ -1,22 +1,17 @@
 package com.app.backend.pages;
 
 import lombok.AccessLevel;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import javax.xml.datatype.Duration;
 
-@Data
-public class LoginPage extends BasePage{
+public class LoginPage extends NonAuthorizedPage{
 
     private By usernameField = By.id("username");
     private By passwordField = By.id("password");
-    @Setter(value = AccessLevel.NONE)
-    @Getter(value=AccessLevel.NONE)
     private By loginButton = By.id("submit");
 
     public void setUsername(String username){

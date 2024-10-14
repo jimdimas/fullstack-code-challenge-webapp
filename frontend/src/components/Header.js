@@ -8,7 +8,7 @@ export default function Header(){
 
     const header = (auth.token!=='' && auth.username!=='')?
         (<>
-            <li class="active"> <Link to="/problem"> View all Problems </Link> </li>
+            <li class="active" id="problems"> <Link to="/problem"> View all Problems </Link> </li>
 
             {auth.role==="ADMIN" && <>
                 <li class="active"><Link to="/students">Students</Link></li>
@@ -18,16 +18,16 @@ export default function Header(){
             {auth.role==='SUPERVISOR' &&
                 <li class="active"><Link to="/problem/upload">Upload Problem</Link></li>}
 
-            <li class="active"> <Link to={`/profile/${auth.username}`}> My Profile </Link> </li>
+            <li class="active" id="profile"> <Link to={`/profile/${auth.username}`}> My Profile </Link> </li>
 
             { auth.role==='STUDENT' &&
                 <li class="active"> <Link to={`/profile/${auth.username}/solutions`}>My Solutions</Link></li>}
 
-            <li class="active" onClick={() => auth.logout()}> <Link> Logout </Link></li>
+            <li class="active" id="logout" onClick={() => auth.logout()}> <Link> Logout </Link></li>
         </>):
         (<>
-            <li class="active"> <Link to="/register"> Register </Link> </li>
-            <li class="active"> <Link to="/login"> Login </Link> </li>
+            <li class="active" id="register"> <Link to="/register"> Register </Link> </li>
+            <li class="active" id="login"> <Link to="/login"> Login </Link> </li>
         </>)
 
 
