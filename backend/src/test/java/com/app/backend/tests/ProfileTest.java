@@ -16,8 +16,9 @@ public class ProfileTest extends BaseTest{
     }
 
     @Test(priority = 2)
-    public void testLogout(){
+    public void testLogout() throws InterruptedException {
         HomePage homePage = profilePage.logoutAction();
+        Thread.sleep(500);
         Assert.assertTrue(homePage.isNotAuthorized());
     }
 }
