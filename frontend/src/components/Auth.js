@@ -42,7 +42,7 @@ export default function Auth(props){
                     <fieldset class="password">
                         <input type="password" placeholder="Password" id="password" name="password" value={credentials.password} onChange={handleChange}/>
                     </fieldset>
-                    <button type="submit" class="btn">{props.isRegistered?"Login":"Register"}</button>
+                    <button type="submit" class="btn" id="submit">{props.isRegistered?"Login":"Register"}</button>
                 </form>
             </div>
         </div>
