@@ -9,7 +9,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-public class FirstSeleniumTest {
+public class LoginFailTest {
+
     WebDriver driver;
 
     @BeforeClass
@@ -31,7 +32,7 @@ public class FirstSeleniumTest {
         WebElement password = driver.findElement(By.id("password"));
 
         username.sendKeys("jimdim");
-        password.sendKeys("123456");
+        password.sendKeys("12345");
         driver.findElement(By.id("submit")).click();
         Thread.sleep(1000);
         Assert.assertEquals(driver.getCurrentUrl().contains("profile"),true);
