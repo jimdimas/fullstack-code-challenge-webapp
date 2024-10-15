@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 
 @Entity
 @Data
@@ -26,7 +28,9 @@ public class Test {
     )
     @JsonIgnore
     private Integer id;
+    @Column(unique = true)
     private String title;
     @OneToMany
     private List<Question> questions;
+    private Integer points;
 }
