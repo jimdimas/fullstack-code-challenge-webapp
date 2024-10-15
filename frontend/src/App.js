@@ -15,6 +15,7 @@ import UploadProblem from './components/UploadProblem';
 import AdminRoute from './routes/AdminRoute';
 import Users from './components/Users';
 import Test from './components/Test';
+import SolveTest from './components/SolveTest';
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
               </Route>
               <Route path="test">
                 <Route index element={<Test/>}/>
+                <Route path=":title" element={<SolveTest/>}/>
               </Route>
               <Route element={<AdminRoute/>}>
                 <Route path="/students" element={<Users mode="STUDENT"/>}/>

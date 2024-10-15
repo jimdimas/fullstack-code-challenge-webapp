@@ -35,6 +35,7 @@ export default function Test(){
                     <tr>
                         <th>Title</th>
                         <th data-priority="1">Points</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
