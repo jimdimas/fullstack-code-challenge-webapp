@@ -8,6 +8,7 @@ export default function Header(){
 
     const header = (auth.token!=='' && auth.username!=='')?
         (<>
+            <li class="active" id="tests"><Link to="/test">View all Tests</Link></li>
             <li class="active" id="problems"> <Link to="/problem"> View all Problems </Link> </li>
 
             {auth.role==="ADMIN" && <>
