@@ -51,6 +51,18 @@ public class TestService {
         if (!testExists.isPresent()){
             throw new CustomException("Test with given title doesn't exist");
         }
+        if (testResult.getResult()<0.5){
+            throw new CustomException("Test grade cannot be accepted");
+        }
+        Optional<TestResult> hasDoneTest = testResultRepository.findTestResultByTestTitleAndUsername(title,student.getUsername());
+        if (hasDoneTest.isPresent()){
+            TestResult savedResult = hasDoneTest.get();
+            if (savedResult.getResult()<testResult.getResult()){
+                savedResult.setResult(testResult.getResult());
+                testResultRepository.save(savedResult);
+                return "Test result was uploaded succesfully";
+            }
+        }
         testResult.setTest(testExists.get());
         testResult.setStudent(student);
         testResultRepository.save(testResult);
