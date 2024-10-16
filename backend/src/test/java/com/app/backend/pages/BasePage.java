@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 public class BasePage {
 
     public static WebDriver driver;
+    protected String baseUrl="http://localhost:3000";
 
     public void setDriver(WebDriver _driver){
         driver=_driver;
