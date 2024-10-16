@@ -1,6 +1,8 @@
 package com.app.backend.controller;
 
+import com.app.backend.model.Student;
 import com.app.backend.model.Test;
+import com.app.backend.model.TestResult;
 import com.app.backend.service.TestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -27,5 +29,13 @@ public class TestController {
     @PostMapping
     public String postTest(@RequestBody Test test){
         return testService.postTest(test);
+    }
+
+    @PostMapping(path="{title}")
+    public String postTestResult(
+            @PathVariable(name="title") String title,
+            @RequestAttribute(name = "user") Student student,
+            @RequestBody TestResult testResult){
+        return testService.postTestResult(title,student,testResult);
     }
 }
