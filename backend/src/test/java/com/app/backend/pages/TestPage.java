@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 import static com.app.backend.utility.JavascriptUtilities.*;
 import static com.app.backend.utility.WaitUtilities.waitElementToLoad;
 
-public class TestPage extends AuthorizedPage{
+public class TestPage extends UserPage{
 
     public SolveTestPage clickTestByTitle(String title){
         By testLink = By.xpath("//tr[td[text()='" + title + "']]/td[3]/a");
