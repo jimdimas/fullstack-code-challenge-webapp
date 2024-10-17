@@ -21,8 +21,11 @@ export default function Header(){
 
             <li class="active" id="profile"> <Link to={`/profile/${auth.username}`}> My Profile </Link> </li>
 
-            { auth.role==='STUDENT' &&
-                <li class="active" id="solutions"> <Link to={`/profile/${auth.username}/solutions`}>My Solutions</Link></li>}
+            { auth.role==='STUDENT' &&  <>
+                    <li class="active" id="solutions"> <Link to={`/profile/${auth.username}/solutions`}>My Solutions</Link></li>
+                    <li class="active" id="results"> <Link to={`/results/${auth.username}`}>My Test Results</Link></li>
+                </>
+                }
 
             <li class="active" id="logout" onClick={() => auth.logout()}> <Link> Logout </Link></li>
         </>):
