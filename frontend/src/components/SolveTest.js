@@ -56,19 +56,22 @@ export default function SolveTest(){
             }
         });
         if (correct/test.questions.length>=0.5){
-            Swal.fire(
+            /*Swal.fire(
                 'Success! :)',
                 `You have passed the test with ${correct} out of ${test.questions.length} correct answers!`,
                 'success'
             )
+            */
             setTestResult(correct/test.questions.length)
             setSubmit(true)
         } else {
+            /*
             Swal.fire(
                 'Fail! :(',
                 `You have not passed the test , you only had ${correct} out of ${test.questions.length} correct answers...`,
                 'error'
             )
+            */
             navigate('/test',{replace:true})
         }
     }
