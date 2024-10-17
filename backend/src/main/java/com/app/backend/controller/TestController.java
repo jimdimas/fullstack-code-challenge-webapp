@@ -30,12 +30,4 @@ public class TestController {
     public String postTest(@RequestBody Test test){
         return testService.postTest(test);
     }
-
-    @PostMapping(path="{title}")
-    public String postTestResult(
-            @PathVariable(name="title") String title,
-            @RequestAttribute(name = "user") Student student,
-            @RequestBody TestResult testResult){
-        return testService.postTestResult(title,student,testResult);
-    }
 }

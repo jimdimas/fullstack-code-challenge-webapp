@@ -12,9 +12,10 @@ export default function SolveTest(){
     const api = useApi()
 
     React.useEffect(()=>{
-        const url=`/test/${title}`
+        let url;
         
         if (submit){
+            url=`/result/${title}`
             api.request('post',url,true,{
                 result:testResult
             }).then(res=>{
@@ -24,6 +25,7 @@ export default function SolveTest(){
             }
             )
         } else {
+            url=`/test/${title}`
             api.request('get',url,true).then(res=>{
                 setTest(res.data)
             })

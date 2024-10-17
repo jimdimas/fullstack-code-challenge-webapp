@@ -3,8 +3,11 @@ package com.app.backend.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
 @Entity
+@Table(uniqueConstraints={@UniqueConstraint(columnNames = {"test","student"})})
 public class TestResult {
     @Id
     @SequenceGenerator(
@@ -22,4 +25,5 @@ public class TestResult {
     @ManyToOne
     private Student student;
     private Double result;
+    private Date solvedAt;
 }
