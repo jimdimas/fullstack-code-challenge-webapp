@@ -1,8 +1,5 @@
 package com.app.backend.pages;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -31,6 +28,13 @@ public class LoginPage extends NonAuthorizedPage{
         setUsername(username);
         setPassword(password);
         return clickLoginButton();
+    }
+
+    public ProfilePageSupervisor loginActionSupervisor(String username, String password){
+        setUsername(username);
+        setPassword(password);
+        click(loginButton);
+        return new ProfilePageSupervisor();
     }
 
     public String getErrorMessage(){

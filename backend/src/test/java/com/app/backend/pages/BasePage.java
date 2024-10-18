@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import static com.app.backend.utility.WaitUtilities.waitElementToLoad;
+
 public class BasePage {
 
     public static WebDriver driver;
@@ -18,6 +20,7 @@ public class BasePage {
     }
 
     protected void set(By locator,String text){
+        waitElementToLoad(locator);
         find(locator).clear();
         find(locator).sendKeys(text);
     }

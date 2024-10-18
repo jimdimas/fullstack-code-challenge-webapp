@@ -116,27 +116,27 @@ export default function UploadTest(){
                 <li>
                     <label htmlFor="textbox-0">1st Answer:</label>
                     <input type="textbox" id="textbox-0" name="textbox-0" value={question.answers[0]} onChange={handleQuestionChange}></input>
-                    <input type="radio" id="correctAnswer" name="correctAnswer" value={0} checked={question.correctAnswer=='0'} onChange={handleQuestionChange}></input>
+                    <input type="radio" id="correctAnswer0" name="correctAnswer" value={0} checked={question.correctAnswer=='0'} onChange={handleQuestionChange}></input>
                 </li>
                 <li>
                     <label htmlFor="textbox-1">2nd Answer:</label>
                     <input type="textbox" id="textbox-1" name="textbox-1" value={question.answers[1]} onChange={handleQuestionChange}></input>
-                    <input type="radio" id="correctAnswer" name="correctAnswer" value={1} checked={question.correctAnswer=='1'} onChange={handleQuestionChange}></input>
+                    <input type="radio" id="correctAnswer1" name="correctAnswer" value={1} checked={question.correctAnswer=='1'} onChange={handleQuestionChange}></input>
                 </li>
                 <li>
                 <label htmlFor="textbox-2">3rd Answer:</label>
                     <input type="textbox" id="textbox-2" name="textbox-2" value={question.answers[2]} onChange={handleQuestionChange}></input>
-                    <input type="radio" id="correctAnswer" name="correctAnswer" value={2} checked={question.correctAnswer=='2'} onChange={handleQuestionChange}></input>
+                    <input type="radio" id="correctAnswer2" name="correctAnswer" value={2} checked={question.correctAnswer=='2'} onChange={handleQuestionChange}></input>
                 </li>
                 <li>
-                    <button>Add</button>
+                    <button id="addQuestion">Add</button>
                 </li>
             </ul>
             <br/><br/>
             <label htmlFor="points">Points:</label>
             <input type="number" id="points" name="points" min="0" max="500" value={test.points} onChange={handleTestChange}></input>
             <br/><br/>
-            <button onClick={handleSubmit}>Submit</button>
+            <button onClick={handleSubmit} id="submit">Submit</button>
         </form>
     </div>)
 }

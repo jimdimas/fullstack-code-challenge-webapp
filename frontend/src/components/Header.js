@@ -18,8 +18,8 @@ export default function Header(){
 
             {auth.role==='SUPERVISOR' &&
             <>
-                <li class="active"><Link to="/problem/upload">Upload Problem</Link></li>
-                <li class="active"><Link to="/test/upload">Upload Test</Link></li>
+                <li class="active" id="uploadProblem"><Link to="/problem/upload">Upload Problem</Link></li>
+                <li class="active" id="uploadTest"><Link to="/test/upload">Upload Test</Link></li>
             </>}
 
             <li class="active" id="profile"> <Link to={`/profile/${auth.username}`}> My Profile </Link> </li>
