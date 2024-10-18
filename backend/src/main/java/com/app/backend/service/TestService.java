@@ -4,6 +4,7 @@ import com.app.backend.exception.CustomException;
 import com.app.backend.model.Student;
 import com.app.backend.model.Test;
 import com.app.backend.model.TestResult;
+import com.app.backend.model.User;
 import com.app.backend.repository.QuestionRepository;
 import com.app.backend.repository.TestRepository;
 import com.app.backend.repository.TestResultRepository;
@@ -34,7 +35,10 @@ public class TestService {
     }
 
     @Transactional
-    public String postTest(Test test){
+    public String postTest(User user,Test test){
+        if (!user.getRole().equals("SUPERVISOR")){
+            throw new CustomException("You do not have access to given resource");
+        }
         Optional<Test> testExists = testRepository.findByTitle(test.getTitle());
         if (testExists.isPresent()){
             throw new CustomException("Test with given title already exists");
