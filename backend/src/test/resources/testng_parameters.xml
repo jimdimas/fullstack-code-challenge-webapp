@@ -18,6 +18,7 @@
         <parameter name="Role" value="SUPERVISOR"/>
         <classes>
             <class name="com.app.backend.tests.UploadTestTest"/>
+            <class name="com.app.backend.tests.UploadProblemTest"/>
         </classes>
     </test>
 </suite>

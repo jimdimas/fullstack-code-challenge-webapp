@@ -22,6 +22,12 @@ public class AuthorizedPage extends BasePage{
         click(testsButton);
         return new TestPage();
     }
+
+    public ProblemPage clickViewProblems(){
+        waitElementToLoad(problemsButton);
+        click(problemsButton);
+        return new ProblemPage();
+    }
     public HomePage logoutAction(){
         click(logoutButton);
         return new HomePage();

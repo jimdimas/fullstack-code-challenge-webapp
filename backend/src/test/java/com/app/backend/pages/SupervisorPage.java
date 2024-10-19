@@ -13,4 +13,10 @@ public class SupervisorPage extends AuthorizedPage{
         click(uploadTestButton);
         return new UploadTestPage();
     }
+
+    public UploadProblemPage clickUploadProblem(){
+        waitElementToLoad(uploadProblemButton);
+        click(uploadProblemButton);
+        return new UploadProblemPage();
+    }
 }
