@@ -2,30 +2,20 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Global Parameters">
     <parameter name="URL" value="http://localhost:3000"/>
-    <parameter name="Username" value="user"/>
-    <parameter name="Password" value="123456"/>
 
-    <test name="Login Fail Test">
-        <parameter name="Username" value="user"/>
-        <parameter name="Password" value="random_pass"/>
-        <classes>
-            <class name="com.app.backend.tests.LoginTest"/>
-        </classes>
-    </test>
-
-    <test name="Login Success Test">
-        <classes>
-            <class name="com.app.backend.tests.ProfileTest"/>
-        </classes>
-    </test>
     <test name="User Solve Test">
+        <parameter name="Username" value="user"/>
+        <parameter name="Password" value="123456"/>
+        <parameter name="Role" value="STUDENT"/>
         <classes>
             <class name="com.app.backend.tests.SolveTestTest"/>
         </classes>
     </test>
+    
     <test name="Supervisor Upload Test">
         <parameter name="Username" value="super"/>
         <parameter name="Password" value="123456"/>
+        <parameter name="Role" value="SUPERVISOR"/>
         <classes>
             <class name="com.app.backend.tests.UploadTestTest"/>
         </classes>

@@ -1,8 +1,6 @@
 package com.app.backend.tests;
 
-import com.app.backend.pages.BasePage;
-import com.app.backend.pages.HomePage;
-import com.app.backend.pages.LoginPage;
+import com.app.backend.pages.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterClass;
@@ -17,22 +15,30 @@ public class BaseTest {
     protected WebDriver driver;
     protected BasePage basePage;
     protected HomePage homePage;
+    protected ProfilePage profilePage;
+    protected ProfilePageSupervisor profilePageSupervisor;
 
     @BeforeClass
-    public void setUp(){
+    @Parameters({"URL","Username","Password","Role"})
+    public void setUp(String url,String username,String password,String role){
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-    }
-
-    @BeforeMethod
-    @Parameters({"URL"})
-    public void setMethod(String url){
         driver.get(url);
         basePage = new BasePage();
         basePage.setDriver(driver);
         setUtilityDriver();
         homePage = new HomePage();
         setUtilityDriver();
+
+        if (role.equals("SUPERVISOR")){
+            LoginPage loginPage = homePage.showLoginPage();
+            profilePageSupervisor = loginPage.loginActionSupervisor(username,password);
+        } else if (role.equals("STUDENT")){
+            LoginPage loginPage = homePage.showLoginPage();
+            profilePage = loginPage.loginAction(username,password);
+        } else {
+            throw new IllegalStateException("Role parameter has wrong input value: "+role+" is not valid.");
+        }
     }
 
     @AfterClass

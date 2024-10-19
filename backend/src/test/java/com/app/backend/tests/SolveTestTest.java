@@ -2,17 +2,13 @@ package com.app.backend.tests;
 
 import com.app.backend.pages.*;
 import org.testng.Assert;
-import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 public class SolveTestTest extends BaseTest {
     private TestResultPage testResultPage;
 
     @Test(priority = 1)
-    @Parameters({"Username","Password"})
-    public void solveTestNotPass(String username,String password){
-        LoginPage loginPage = homePage.showLoginPage();
-        ProfilePage profilePage = loginPage.loginAction(username,password);
+    public void solveTestNotPass(){
         TestPage testPage = profilePage.clickViewTests();
 
         SolveTestPage solveTestPage = testPage.clickTestByTitle("First Test");

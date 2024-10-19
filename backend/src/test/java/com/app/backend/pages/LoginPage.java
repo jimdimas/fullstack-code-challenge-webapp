@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import static com.app.backend.utility.WaitUtilities.waitElementToLoad;
+
 
 public class LoginPage extends NonAuthorizedPage{
 
@@ -12,10 +14,12 @@ public class LoginPage extends NonAuthorizedPage{
     private By loginButton = By.id("submit");
 
     public void setUsername(String username){
+        waitElementToLoad(usernameField);
         set(usernameField,username);
     }
 
     public void setPassword(String password){
+        waitElementToLoad(passwordField);
         set(passwordField,password);
     }
 
