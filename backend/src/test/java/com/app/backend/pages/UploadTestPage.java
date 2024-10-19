@@ -2,7 +2,10 @@ package com.app.backend.pages;
 
 import org.openqa.selenium.By;
 
+import java.util.List;
+
 import static com.app.backend.utility.JavascriptUtilities.clickJS;
+import static com.app.backend.utility.WaitUtilities.waitElementToLoad;
 
 public class UploadTestPage extends SupervisorPage{
 
@@ -22,16 +25,16 @@ public class UploadTestPage extends SupervisorPage{
         set(testTitle,title);
     }
 
-    public void setQuestionContent(String content){
+    private void setQuestionContent(String content){
         set(questionContent,content);
     }
-    public void setAnswers(String[] answers){
-        set(answer0,answers[0]);
-        set(answer1,answers[1]);
-        set(answer2,answers[2]);
+    private void setAnswers(List<String> answers){
+        set(answer0,answers.get(0));
+        set(answer1,answers.get(1));
+        set(answer2,answers.get(2));
     }
 
-    public void setCorrectAnswer(int index){
+    private void setCorrectAnswer(int index){
         if (index==0){
             clickJS(correctAnswer0);
         } else if (index==1){
@@ -41,7 +44,11 @@ public class UploadTestPage extends SupervisorPage{
         }
     }
 
-    public void addQuestion(){
+    public void addQuestion(String content, List<String> answers,int index){
+        setQuestionContent(content);
+        setAnswers(answers);
+        setCorrectAnswer(index);
+        waitElementToLoad(addQuestionButton);
         click(addQuestionButton);
     }
 

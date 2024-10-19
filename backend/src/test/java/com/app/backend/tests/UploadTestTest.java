@@ -1,5 +1,7 @@
 package com.app.backend.tests;
 
+import com.app.backend.data.providers.UploadTestDataProvider;
+import com.app.backend.model.Question;
 import com.app.backend.pages.TestPage;
 import com.app.backend.pages.UploadTestPage;
 import org.testng.Assert;
@@ -7,28 +9,19 @@ import org.testng.annotations.Test;
 
 public class UploadTestTest extends BaseTest{
 
-    @Test
-    public void uploadTest(){
+    @Test(dataProviderClass = UploadTestDataProvider.class,dataProvider = "uploadTestInputProvider")
+    public void uploadTest(com.app.backend.model.Test test){
         UploadTestPage uploadTestPage = profilePageSupervisor.clickUploadTest();
 
-        uploadTestPage.setTestTitle("Sample Test");
-        uploadTestPage.setQuestionContent("What is 10+10?");
-        String answers[] = {"10","1","20"};
-        uploadTestPage.setAnswers(answers);
-        uploadTestPage.setCorrectAnswer(2);
-        uploadTestPage.addQuestion();
+        uploadTestPage.setTestTitle(test.getTitle());
 
-        uploadTestPage.setQuestionContent("What is 10*10?");
-        answers = new String[]{"10", "100", "20"};
-        uploadTestPage.setAnswers(answers);
-        uploadTestPage.setCorrectAnswer(1);
-        uploadTestPage.addQuestion();
-
-        uploadTestPage.setQuestionContent("What is 10^(-1)?");
-        answers = new String[]{"10", "1", "0.1"};
-        uploadTestPage.setAnswers(answers);
-        uploadTestPage.setCorrectAnswer(2);
-        uploadTestPage.addQuestion();
+        for (int i=0; i<test.getQuestions().size(); i++){
+            Question tempQuestion = test.getQuestions().get(i);
+            uploadTestPage.addQuestion(
+                    tempQuestion.getContent(),
+                    tempQuestion.getAnswers(),
+                    tempQuestion.getCorrectAnswer());
+        }
 
         uploadTestPage.setTestPoints(100);
         profilePageSupervisor = uploadTestPage.submitTest();

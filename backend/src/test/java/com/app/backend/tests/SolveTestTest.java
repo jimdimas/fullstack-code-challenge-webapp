@@ -14,8 +14,8 @@ public class SolveTestTest extends BaseTest {
 
         SolveTestPage solveTestPage = testPage.clickTestByTitle(testSolution.getTestTitle());
         for (int i=0; i<testSolution.getAnswers().length; i++){
-            solveTestPage.chooseAnswerToQuestion(testSolution.getAnswers()[i][0],
-                    testSolution.getAnswers()[i][1]);
+            solveTestPage.chooseAnswerToQuestion(testSolution.getQuestions()[i],
+                    testSolution.getAnswers()[i]);
         }
 
         testPage = solveTestPage.clickSubmitButton();

@@ -1,0 +1,47 @@
+[
+  {
+    "type": "Failed Test",
+    "testTitle": "First Test",
+    "questions": [
+        "What is 1+1?",
+        "What is 1-1?",
+        "What is 2*2?"
+      ],
+    "answers": [
+      "0",
+      "1",
+      "2"
+    ],
+    "expectedResult":""
+  },
+  {
+    "type": "Success Test",
+    "testTitle": "First Test",
+    "questions": [
+      "What is 1+1?",
+      "What is 1-1?",
+      "What is 2*2?"
+    ],
+    "answers": [
+      "2",
+      "0",
+      "2"
+    ],
+    "expectedResult":"66%"
+  },
+  {
+    "type": "Improved Test",
+    "testTitle": "First Test",
+    "questions": [
+      "What is 1+1?",
+      "What is 1-1?",
+      "What is 2*2?"
+    ],
+    "answers": [
+      "2",
+      "0",
+      "4"
+    ],
+    "expectedResult":"100%"
+  }
+]
