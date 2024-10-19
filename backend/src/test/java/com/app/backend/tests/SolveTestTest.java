@@ -1,50 +1,28 @@
 package com.app.backend.tests;
 
+import com.app.backend.data.classes.TestSolution;
+import com.app.backend.data.providers.TestSolutionDataProvider;
 import com.app.backend.pages.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class SolveTestTest extends BaseTest {
-    private TestResultPage testResultPage;
 
-    @Test(priority = 1)
-    public void solveTestNotPass(){
+    @Test(dataProviderClass = TestSolutionDataProvider.class,dataProvider = "solveTestInputProvider")
+    public void solveTest(TestSolution testSolution){
         TestPage testPage = profilePage.clickViewTests();
 
-        SolveTestPage solveTestPage = testPage.clickTestByTitle("First Test");
-        solveTestPage.chooseAnswerToQuestion("What is 1+1?","0");
-        solveTestPage.chooseAnswerToQuestion("What is 1-1?","1");
-        solveTestPage.chooseAnswerToQuestion("What is 2*2?","2");
-
-        testPage = solveTestPage.clickSubmitButton();
-        testResultPage = testPage.clickViewResults();
-        Assert.assertEquals(testResultPage.checkTestResult("First Test"),"");
-    }
-
-    @Test(priority = 2)
-    public void solveTestPass() {
-        TestPage testPage = testResultPage.clickViewTests();
-
-        SolveTestPage solveTestPage = testPage.clickTestByTitle("First Test");
-        solveTestPage.chooseAnswerToQuestion("What is 1+1?","2");
-        solveTestPage.chooseAnswerToQuestion("What is 1-1?","0");
-        solveTestPage.chooseAnswerToQuestion("What is 2*2?","2");
+        SolveTestPage solveTestPage = testPage.clickTestByTitle(testSolution.getTestTitle());
+        for (int i=0; i<testSolution.getAnswers().length; i++){
+            solveTestPage.chooseAnswerToQuestion(testSolution.getAnswers()[i][0],
+                    testSolution.getAnswers()[i][1]);
+        }
 
         testPage = solveTestPage.clickSubmitButton();
         TestResultPage testResultPage = testPage.clickViewResults();
-        Assert.assertEquals(testResultPage.checkTestResult("First Test"),"66%");
-    }
-    @Test(priority = 3)
-    public void solveTestImprove(){
-        TestPage testPage = testResultPage.clickViewTests();
-
-        SolveTestPage solveTestPage = testPage.clickTestByTitle("First Test");
-        solveTestPage.chooseAnswerToQuestion("What is 1+1?","2");
-        solveTestPage.chooseAnswerToQuestion("What is 1-1?","0");
-        solveTestPage.chooseAnswerToQuestion("What is 2*2?","4");
-
-        testPage = solveTestPage.clickSubmitButton();
-        TestResultPage testResultPage = testPage.clickViewResults();
-        Assert.assertEquals(testResultPage.checkTestResult("First Test"),"100%");
+        Assert.assertEquals(
+                testResultPage.checkTestResult(testSolution.getTestTitle()),testSolution.getExpectedResult(),
+                "Test : "+ testSolution.getType() + "did not pass");
+        System.out.println("Test: "+ testSolution.getType()+" passed");
     }
 }
