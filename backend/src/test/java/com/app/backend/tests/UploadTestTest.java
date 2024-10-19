@@ -5,14 +5,16 @@ import com.app.backend.pages.ProfilePageSupervisor;
 import com.app.backend.pages.TestPage;
 import com.app.backend.pages.UploadTestPage;
 import org.testng.Assert;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 public class UploadTestTest extends BaseTest{
 
     @Test
-    public void uploadTest(){
+    @Parameters({"Username","Password"})
+    public void uploadTest(String username,String password){
         LoginPage loginPage = homePage.showLoginPage();
-        ProfilePageSupervisor profile = loginPage.loginActionSupervisor("super","123456");
+        ProfilePageSupervisor profile = loginPage.loginActionSupervisor(username,password);
         UploadTestPage uploadTestPage = profile.clickUploadTest();
 
         uploadTestPage.setTestTitle("Sample Test");

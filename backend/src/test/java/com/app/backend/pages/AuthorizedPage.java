@@ -13,6 +13,7 @@ public class AuthorizedPage extends BasePage{
 
 
     public Boolean isAuthorized(){
+        waitElementToLoad(profileButton);
         return find(profileButton).isDisplayed();
     }
 

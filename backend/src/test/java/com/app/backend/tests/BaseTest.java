@@ -8,6 +8,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
 
 import static com.app.backend.utility.BaseUtility.setUtilityDriver;
 
@@ -16,7 +17,6 @@ public class BaseTest {
     protected WebDriver driver;
     protected BasePage basePage;
     protected HomePage homePage;
-    protected String baseUrl="http://localhost:3000";
 
     @BeforeClass
     public void setUp(){
@@ -25,8 +25,9 @@ public class BaseTest {
     }
 
     @BeforeMethod
-    public void setMethod(){
-        driver.get(baseUrl);
+    @Parameters({"URL"})
+    public void setMethod(String url){
+        driver.get(url);
         basePage = new BasePage();
         basePage.setDriver(driver);
         setUtilityDriver();
