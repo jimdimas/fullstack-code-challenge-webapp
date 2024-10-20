@@ -5,7 +5,7 @@ import org.openqa.selenium.By;
 import static com.app.backend.utility.JavascriptUtilities.scrollToElementJS;
 import static com.app.backend.utility.WaitUtilities.waitElementToLoad;
 
-public class TestResultPage extends UserPage{
+public class TestResultPage extends StudentPage {
 
     public String checkTestResult(String title){
         By testResult= By.xpath("//tr[td[text()='" + title + "']]/td[3]");

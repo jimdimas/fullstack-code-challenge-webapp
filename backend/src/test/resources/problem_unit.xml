@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Problem Validation Unit Test Suite">
+    <parameter name="URL" value="http://localhost:3000"/>
+
+    <test name="Supervisor-Problem Interaction Validation Test">
+        <parameter name="Username" value="super"/>
+        <parameter name="Password" value="123456"/>
+        <parameter name="Role" value="SUPERVISOR"/>
+        <classes>
+            <class name="com.app.backend.tests.ProblemTest">
+                <methods>
+                    <include name="uploadProblem"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

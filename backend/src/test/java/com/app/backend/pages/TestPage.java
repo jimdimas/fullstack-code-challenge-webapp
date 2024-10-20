@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 import static com.app.backend.utility.JavascriptUtilities.*;
 import static com.app.backend.utility.WaitUtilities.waitElementToLoad;
 
-public class TestPage extends UserPage{
+public class TestPage extends StudentPage {
 
     public SolveTestPage clickTestByTitle(String title){
         By testLink = By.xpath("//tr[td[text()='" + title + "']]/td[3]/a");
@@ -22,7 +22,6 @@ public class TestPage extends UserPage{
 
     public Boolean testTitleExists(String title){
         By testLink = By.xpath("//tr[td[text()='" + title + "']]/td[3]/a");
-        waitElementToLoad(testLink);
-        return true;
+        return waitElementToLoad(testLink); //if element doesnt exist , function will return false after waiting
     }
 }
