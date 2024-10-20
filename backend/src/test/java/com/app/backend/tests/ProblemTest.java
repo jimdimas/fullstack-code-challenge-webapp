@@ -7,7 +7,7 @@ import com.app.backend.pages.UploadProblemPage;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class UploadProblemTest extends BaseTest{
+public class ProblemTest extends BaseTest{
 
     @Test(dataProviderClass = UploadProblemDataProvider.class,dataProvider = "uploadProblemInputProvider")
     public void uploadProblem(Problem problem){

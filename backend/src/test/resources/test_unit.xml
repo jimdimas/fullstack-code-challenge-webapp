@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Test Validation Unit Test Suite">
+    <parameter name="URL" value="http://localhost:3000"/>
+
+    <test name="Supervisor-Test Interaction Validation Test">
+        <parameter name="Username" value="super"/>
+        <parameter name="Password" value="123456"/>
+        <parameter name="Role" value="SUPERVISOR"/>
+        <classes>
+            <class name="com.app.backend.tests.TestTest">
+                <methods>
+                    <include name="uploadTest"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="User-Test Interaction Validation Test">
+        <parameter name="Username" value="user"/>
+        <parameter name="Password" value="123456"/>
+        <parameter name="Role" value="STUDENT"/>
+        <classes>
+            <class name="com.app.backend.tests.TestTest">
+                <methods>
+                    <include name="solveTest"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

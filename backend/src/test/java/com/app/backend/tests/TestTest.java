@@ -2,11 +2,13 @@ package com.app.backend.tests;
 
 import com.app.backend.data.classes.TestSolution;
 import com.app.backend.data.providers.TestSolutionDataProvider;
+import com.app.backend.data.providers.UploadTestDataProvider;
+import com.app.backend.model.Question;
 import com.app.backend.pages.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class SolveTestTest extends BaseTest {
+public class TestTest extends BaseTest {
 
     @Test(dataProviderClass = TestSolutionDataProvider.class,dataProvider = "solveTestInputProvider")
     public void solveTest(TestSolution testSolution){
@@ -24,5 +26,26 @@ public class SolveTestTest extends BaseTest {
                 testResultPage.checkTestResult(testSolution.getTestTitle()),testSolution.getExpectedResult(),
                 "Test : "+ testSolution.getType() + "did not pass");
         System.out.println("Test: "+ testSolution.getType()+" passed");
+    }
+
+    @Test(dataProviderClass = UploadTestDataProvider.class,dataProvider = "uploadTestInputProvider")
+    public void uploadTest(com.app.backend.model.Test test){
+        UploadTestPage uploadTestPage = profilePageSupervisor.clickUploadTest();
+
+        uploadTestPage.setTestTitle(test.getTitle());
+
+        for (int i=0; i<test.getQuestions().size(); i++){
+            Question tempQuestion = test.getQuestions().get(i);
+            uploadTestPage.addQuestion(
+                    tempQuestion.getContent(),
+                    tempQuestion.getAnswers(),
+                    tempQuestion.getCorrectAnswer());
+        }
+
+        uploadTestPage.setTestPoints(100);
+        profilePageSupervisor = uploadTestPage.submitTest();
+
+        TestPage testPage = profilePageSupervisor.clickViewTests();
+        Assert.assertTrue(testPage.testTitleExists(test.getTitle()));
     }
 }
