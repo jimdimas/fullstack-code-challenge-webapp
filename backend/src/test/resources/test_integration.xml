@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Test Integration Test Suite">
+    <parameter name="URL" value="http://localhost:3000"/>
+
+    <test name="Upload-Solve Workflow">
+        <classes>
+            <class name="com.app.backend.tests.TestTest">
+                <methods>
+                    <include name="uploadTest">
+                        <parameter name="Username" value="super"/>
+                        <parameter name="Password" value="123456"/>
+                        <parameter name="Role" value="SUPERVISOR"/>
+                    </include>
+                    <include name="solveTest">
+                        <parameter name="Username" value="user"/>
+                        <parameter name="Password" value="123456"/>
+                        <parameter name="Role" value="STUDENT"/>
+                    </include>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
