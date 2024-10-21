@@ -22,4 +22,14 @@ public class ProblemTest extends BaseTest{
         ProblemPage problemPage = profilePageSupervisor.clickViewProblems();
         Assert.assertTrue(problemPage.checkProblemExists(problem.getQuestion()));
     }
+
+    @Test(dataProviderClass = SolveProblemDataProvider.class,dataProvider = "solveProblemInputProvider")
+    public void solveProblem(Solution solution){
+        ProblemPage problemPage = profilePage.clickViewProblems();
+        SolveProblemPage solveProblemPage = problemPage.clickProblemByQuestion(solution.getForProblem().getQuestion());
+
+        solveProblemPage.setAnswer(solution.getContent());
+        profilePage = solveProblemPage.clickSubmitButton();
+        Assert.assertTrue(profilePage.isAuthorized());
+    }
 }

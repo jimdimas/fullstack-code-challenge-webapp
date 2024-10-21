@@ -15,4 +15,16 @@
             </class>
         </classes>
     </test>
+    <test name="Student-Problem Interaction Validation Test">
+        <parameter name="Username" value="user"/>
+        <parameter name="Password" value="123456"/>
+        <parameter name="Role" value="STUDENT"/>
+        <classes>
+            <class name="com.app.backend.tests.ProblemTest">
+                <methods>
+                    <include name="solveProblem"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
