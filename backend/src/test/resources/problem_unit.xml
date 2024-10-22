@@ -11,6 +11,12 @@
             <class name="com.app.backend.tests.ProblemTest">
                 <methods>
                     <include name="uploadProblem"/>
+                    <include name="setSolutionResult">
+                        <parameter name="Question" value="What is the difference between array and list in Java?"/>
+                        <parameter name="Solution" value="I dont know!"/>
+                        <parameter name="StudentUsername" value="user"/>
+                        <parameter name="Result" value="true"/>
+                    </include>
                 </methods>
             </class>
         </classes>

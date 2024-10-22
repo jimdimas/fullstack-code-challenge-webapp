@@ -1,12 +1,13 @@
 import React from "react";
 import { useAuth } from "../hooks/AuthProvider";
 import { useApi } from "../hooks/useApi";
-import { Link } from "react-router-dom";
+import { Link , useNavigate } from "react-router-dom";
 import '../css/table.css'
 
 export default function SingleSolution(props){
     const auth = useAuth()
     const api = useApi()
+    const navigate = useNavigate()
     const [accept,setAccept] = React.useState()
     const [submit,setSubmit] = React.useState(false)
 
@@ -17,7 +18,7 @@ export default function SingleSolution(props){
             api.request('post',uri,true).then(res=>{
                 console.log('accepted')
                 setAccept(false)
-                window.location.reload()
+                navigate(`/profile/${auth.username}`,{replace:true})
             })
         }
     },[submit])

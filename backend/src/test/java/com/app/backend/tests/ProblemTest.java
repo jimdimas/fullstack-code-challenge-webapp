@@ -6,6 +6,7 @@ import com.app.backend.model.Problem;
 import com.app.backend.model.Solution;
 import com.app.backend.pages.*;
 import org.testng.Assert;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 public class ProblemTest extends BaseTest{
@@ -26,10 +27,23 @@ public class ProblemTest extends BaseTest{
     @Test(dataProviderClass = SolveProblemDataProvider.class,dataProvider = "solveProblemInputProvider")
     public void solveProblem(Solution solution){
         ProblemPage problemPage = profilePage.clickViewProblems();
-        SolveProblemPage solveProblemPage = problemPage.clickProblemByQuestion(solution.getForProblem().getQuestion());
+        SolveProblemPage solveProblemPage = problemPage.solveProblemByQuestion(solution.getForProblem().getQuestion());
 
         solveProblemPage.setAnswer(solution.getContent());
         profilePage = solveProblemPage.clickSubmitButton();
         Assert.assertTrue(profilePage.isAuthorized());
+    }
+
+    @Test
+    @Parameters({"Question","Solution","StudentUsername","Result"})
+    public void setSolutionResult(
+            String question,
+            String solution,
+            String username,
+            Boolean result){
+        ProblemPage problemPage = profilePageSupervisor.clickViewProblems();
+        ProblemSolutionsPage problemSolutionsPage = problemPage.viewProblemSolutions(question);
+        profilePageSupervisor = problemSolutionsPage.setStudentSolutionResult(solution,username,result);
+        Assert.assertTrue(profilePageSupervisor.isAuthorized());
     }
 }

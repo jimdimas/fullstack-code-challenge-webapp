@@ -13,10 +13,17 @@ public class ProblemPage extends AuthorizedPage{
         return true;
     }
 
-    public SolveProblemPage clickProblemByQuestion(String question){
+    public SolveProblemPage solveProblemByQuestion(String question){
         By locator = By.xpath("//tr[td[text()='" + question + "']]/td[4]/a");
         waitElementToLoad(locator);
         clickJS(locator);
         return new SolveProblemPage();
+    }
+
+    public ProblemSolutionsPage viewProblemSolutions(String question){
+        By locator = By.xpath("//tr[td[text()='" + question + "']]/td[4]/a");
+        waitElementToLoad(locator);
+        clickJS(locator);
+        return new ProblemSolutionsPage();
     }
 }
