@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Problem Validation Unit Test Suite">
+    <parameter name="URL" value="http://localhost:3000"/>
+
+    <test name="Upload Problem-User Solution-Validate Solution Workflow">
+        <classes>
+            <class name="com.app.backend.tests.ProblemTest">
+                <methods>
+                    <include name="uploadProblem">
+                        <parameter name="Username" value="super"/>
+                        <parameter name="Password" value="123456"/>
+                        <parameter name="Role" value="SUPERVISOR"/>
+                    </include>
+                    <include name="solveProblem">
+                        <parameter name="Username" value="user"/>
+                        <parameter name="Password" value="123456"/>
+                        <parameter name="Role" value="STUDENT"/>
+                    </include>
+                    <include name="setSolutionResult">
+                        <parameter name="Username" value="super"/>
+                        <parameter name="Password" value="123456"/>
+                        <parameter name="Role" value="SUPERVISOR"/>
+                        <parameter name="Question" value="What is the difference between array and list in Java?"/>
+                        <parameter name="Solution" value="I dont know!"/>
+                        <parameter name="StudentUsername" value="user"/>
+                        <parameter name="Result" value="true"/>
+                    </include>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
