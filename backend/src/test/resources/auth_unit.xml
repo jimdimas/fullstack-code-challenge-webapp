@@ -17,4 +17,31 @@
             </class>
         </classes>
     </test>
+    <test name="Email Exists Register Unit Test">
+        <classes>
+            <class name="com.app.backend.tests.AuthTest">
+                <methods>
+                    <include name="invalidRegister">
+                        <parameter name="Username" value="raandoom"/>
+                        <parameter name="Email" value="user@mail.com"/>
+                        <parameter name="Password" value="random"/>
+                        <parameter name="Result" value="Email exists"/>
+                    </include>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Successful Register Unit Test">
+        <classes>
+            <class name="com.app.backend.tests.AuthTest">
+                <methods>
+                    <include name="validRegister">
+                        <parameter name="Username" value="raandoom"/>
+                        <parameter name="Email" value="raandoom@mail.com"/>
+                        <parameter name="Password" value="random"/>
+                    </include>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

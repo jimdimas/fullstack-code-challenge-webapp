@@ -26,8 +26,9 @@ public class RegisterPage extends NonAuthorizedPage{
         set(passwordTextbox,password);
     }
 
-    public void clickSubmitButton(){
+    public ProfilePage clickSubmitButton(){
         waitElementToLoad(submitButton);
         click(submitButton);
+        return new ProfilePage();
     }
 }
