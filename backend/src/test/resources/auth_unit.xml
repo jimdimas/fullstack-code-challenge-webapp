@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Auth Validation Unit Test Suite">
+    <parameter name="URL" value="http://localhost:3000"/>
+
+    <test name="Username Exists Register Unit Test">
+        <classes>
+            <class name="com.app.backend.tests.AuthTest">
+                <methods>
+                    <include name="invalidRegister">
+                        <parameter name="Username" value="user"/>
+                        <parameter name="Email" value="raaandom@mail.com"/>
+                        <parameter name="Password" value="random"/>
+                        <parameter name="Result" value="Username exists"/>
+                    </include>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

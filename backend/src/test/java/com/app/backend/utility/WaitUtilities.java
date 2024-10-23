@@ -26,4 +26,16 @@ public class WaitUtilities extends BaseUtility{
         }
     }
 
+    public static void waitAlertToLoad(){
+        try {
+            FluentWait fluentWait = new FluentWait(driver)
+                    .withTimeout(Duration.ofSeconds(5))
+                    .pollingEvery(Duration.ofMillis(500))
+                    .ignoring(NoSuchElementException.class,
+                            StaleElementReferenceException.class);
+            fluentWait.until(ExpectedConditions.alertIsPresent());
+        } catch (Exception e){
+
+        }
+    }
 }

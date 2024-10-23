@@ -15,6 +15,12 @@ public class NonAuthorizedPage extends BasePage{
         return new LoginPage();
     }
 
+    public RegisterPage showRegisterPage(){
+        waitElementToLoad(registerButton);
+        click(registerButton);
+        return new RegisterPage();
+    }
+
     public Boolean isNotAuthorized(){
         return find(loginButton).isDisplayed();
     }
