@@ -7,7 +7,7 @@ import org.testng.annotations.*;
 
 import static com.app.backend.utility.BaseUtility.setUtilityDriver;
 
-public class BaseTest {
+public class AuthorizedBaseTest {
 
     protected WebDriver driver;
     protected BasePage basePage;

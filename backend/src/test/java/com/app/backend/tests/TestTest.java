@@ -8,7 +8,7 @@ import com.app.backend.pages.*;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class TestTest extends BaseTest {
+public class TestTest extends AuthorizedBaseTest {
 
     @Test(dataProviderClass = TestSolutionDataProvider.class,dataProvider = "solveTestInputProvider")
     public void solveTest(TestSolution testSolution){

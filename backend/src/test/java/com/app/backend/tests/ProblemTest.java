@@ -9,7 +9,7 @@ import org.testng.Assert;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-public class ProblemTest extends BaseTest{
+public class ProblemTest extends AuthorizedBaseTest {
 
     @Test(dataProviderClass = UploadProblemDataProvider.class,dataProvider = "uploadProblemInputProvider")
     public void uploadProblem(Problem problem) {
