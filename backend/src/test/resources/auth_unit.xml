@@ -2,7 +2,22 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Auth Validation Unit Test Suite">
     <parameter name="URL" value="http://localhost:3000"/>
-
+    <test name="Non-matching Password Register Unit Test">
+        <classes>
+            <class name="com.app.backend.tests.AuthTest">
+                <methods>
+                    <include name="dataValidationRegister">
+                        <parameter name="Username" value="user"/>
+                        <parameter name="Email" value="raaandom@mail.com"/>
+                        <parameter name="Password" value="random"/>
+                        <parameter name="ConfirmPassword" value="random2"/>
+                        <parameter name="School" value="Harvard"/>
+                        <parameter name="Result" value="Passwords dont match"/>
+                    </include>
+                </methods>
+            </class>
+        </classes>
+    </test>
     <test name="Username Exists Register Unit Test">
         <classes>
             <class name="com.app.backend.tests.AuthTest">
@@ -11,6 +26,8 @@
                         <parameter name="Username" value="user"/>
                         <parameter name="Email" value="raaandom@mail.com"/>
                         <parameter name="Password" value="random"/>
+                        <parameter name="ConfirmPassword" value="random"/>
+                        <parameter name="School" value="Harvard"/>
                         <parameter name="Result" value="Username exists"/>
                     </include>
                 </methods>
@@ -22,9 +39,11 @@
             <class name="com.app.backend.tests.AuthTest">
                 <methods>
                     <include name="invalidRegister">
-                        <parameter name="Username" value="raandoom"/>
+                        <parameter name="Username" value="random_text_string"/>
                         <parameter name="Email" value="user@mail.com"/>
                         <parameter name="Password" value="random"/>
+                        <parameter name="ConfirmPassword" value="random"/>
+                        <parameter name="School" value="Harvard"/>
                         <parameter name="Result" value="Email exists"/>
                     </include>
                 </methods>
@@ -36,9 +55,12 @@
             <class name="com.app.backend.tests.AuthTest">
                 <methods>
                     <include name="validRegister">
-                        <parameter name="Username" value="raandoom"/>
-                        <parameter name="Email" value="raandoom@mail.com"/>
+                        <parameter name="Username" value="new_username"/>
+                        <parameter name="Email" value="raaandom@mail.com"/>
                         <parameter name="Password" value="random"/>
+                        <parameter name="ConfirmPassword" value="random"/>
+                        <parameter name="School" value="Harvard"/>
+                        <parameter name="Result" value="Username exists"/>
                     </include>
                 </methods>
             </class>
