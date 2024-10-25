@@ -3,7 +3,6 @@ package com.app.backend.service;
 import com.app.backend.exception.CustomException;
 import com.app.backend.model.User;
 import com.app.backend.repository.UserRepository;
-import com.app.backend.util.UserUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +14,6 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final UserUtil userUtil;
 
     public List<User> getAllUsers(){
         return userRepository.findAll();
@@ -40,6 +38,6 @@ public class UserService {
             throw new CustomException("Email already exists");
         }
 
-        userUtil.setupUserRegister(user);
+        userRepository.save(user);
     }
 }

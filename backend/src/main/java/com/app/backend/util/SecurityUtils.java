@@ -15,8 +15,8 @@ public class SecurityUtils {
 
     public static String createVerificationToken(){
         StringBuilder verificationToken = new StringBuilder();
-        for (int i=0; i<32; i++){
-            verificationToken.append(ALPHANUMERICS.charAt(secureRandom.nextInt()));
+        for (int i=0; i<64; i++){
+            verificationToken.append(ALPHANUMERICS.charAt(secureRandom.nextInt(ALPHANUMERICS.length())));
         }
         return verificationToken.toString();
     }
