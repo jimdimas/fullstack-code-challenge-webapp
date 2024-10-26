@@ -10,26 +10,30 @@ const AuthProvider = ({children})=>{
     const [role,setRole] = useState(localStorage.getItem('role') || '')
     const navigate = useNavigate()
 
-    const access = async(credentials,isRegistered)=>{
+    const access = async(credentials,isRegistered,setMessage)=>{
         try{
             const url = `${process.env.REACT_APP_API_URL}/auth/${isRegistered?'login':'register'}`
             const res = await axios.post(url,credentials)
 
             if (res.status===200){
-                setUsername(res.data.user.username)
-                setToken(res.data.token)
-                setRole(res.data.user.role)
-                localStorage.setItem('username',res.data.user.username)
-                localStorage.setItem('token',res.data.token)
-                localStorage.setItem('role',res.data.user.role)
-                navigate(`/profile/${res.data.user.username}`,{replace:true})
-                return;
+                if (isRegistered){
+                    setUsername(res.data.user.username)
+                    setToken(res.data.token)
+                    setRole(res.data.user.role)
+                    localStorage.setItem('username',res.data.user.username)
+                    localStorage.setItem('token',res.data.token)
+                    localStorage.setItem('role',res.data.user.role)
+                    navigate(`/profile/${res.data.user.username}`,{replace:true})
+
+                } else {
+                    setMessage(res.data.message)
+                }
             } else {
                 navigate('/',{replace:true})
             }
         } catch (err){
             if (err.response){
-                if (err.response.status===400) alert(err.response.data.message)
+                if (err.response.status===400) setMessage(err.response.data.message)
                 else console.log(err)
         }
      }

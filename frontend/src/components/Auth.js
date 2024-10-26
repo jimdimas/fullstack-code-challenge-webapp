@@ -49,8 +49,10 @@ export default function Auth(props){
             setMessage(<div>
                 {msg}
             </div>)
-        } 
-    },[credentials])
+        } else {
+            setMessage('')
+        }
+    },[credentials,isRegistered])
     
     function handleChange(event){
         const {name,value,type,checked} = event.target
@@ -65,7 +67,7 @@ export default function Auth(props){
 
     function onSubmit(event){
         event.preventDefault()
-        auth.access(credentials,isRegistered)
+        auth.access(credentials,isRegistered,setMessage)
         return;
     }
 
