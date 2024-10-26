@@ -46,6 +46,8 @@ public class User implements UserDetails {
     private String verificationToken;
     @JsonIgnore
     private LocalDateTime tokenExpirationDate;
+    @JsonIgnore
+    private TokenType tokenType; //reset password or reset email
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

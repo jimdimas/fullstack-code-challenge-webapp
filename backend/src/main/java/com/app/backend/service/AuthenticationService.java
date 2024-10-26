@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static com.app.backend.util.MailUtil.sendEmailVerificationMail;
+import static com.app.backend.util.MailUtil.sendPasswordResetMail;
 import static com.app.backend.util.SecurityUtils.createVerificationToken;
 
 @Service
@@ -49,6 +50,7 @@ public class AuthenticationService {
                 password(passwordEncoder.encode(user.getPassword())).
                 verificationToken(verificationToken).
                 tokenExpirationDate(LocalDateTime.now().plusHours(1)).
+                tokenType(TokenType.EMAIL).
                 email(user.getEmail()).
                 role("STUDENT").
                 level("Beginner").
@@ -89,14 +91,42 @@ public class AuthenticationService {
         }
 
         User user = userExists.get();
-        if (user.getTokenExpirationDate().isBefore(LocalDateTime.now())){
+        if (user.getTokenType().equals(TokenType.PASSWORD)){
+            throw new CustomException("Email verification failed");
+        }
+        if (user.getTokenType().equals(TokenType.EMAIL) &&
+                user.getTokenExpirationDate().isBefore(LocalDateTime.now())){
             throw new CustomException("Email verification link has expired.");
         }
 
         user.setVerificationToken(null);
         user.setTokenExpirationDate(null);
+        user.setTokenType(null);
         userRepository.save(user);
         return ResponseEntity.ok(
                 JsonBody.builder().message("Email verification was successful,login to continue.").build());
+    }
+
+    @Transactional
+    public ResponseEntity<JsonBody> forgotPassword(String email) throws MessagingException {
+        Optional<User> userExists = userRepository.findByEmail(email);
+        if (userExists.isEmpty()){
+            throw new CustomException("User with given email doesn't exist.");
+        }
+        User user = userExists.get();
+        if (user.getTokenType().equals(TokenType.EMAIL) && !user.isEnabled()){
+            throw new CustomException("You need to verify your email address first in order to reset your password.");
+        }
+        String token = createVerificationToken();
+        user.setVerificationToken(token);
+        user.setTokenExpirationDate(LocalDateTime.now().plusHours(1));
+        user.setTokenType(TokenType.PASSWORD);
+        userRepository.save(user);
+        sendPasswordResetMail(
+                emailConfiguration,
+                email,
+                token
+        );
+        return ResponseEntity.ok(JsonBody.builder().message("Check your email in order to reset your password.").build());
     }
 }
