@@ -18,6 +18,7 @@ import Test from './components/Test';
 import SolveTest from './components/SolveTest';
 import TestResult from './components/TestResult';
 import UploadTest from './components/UploadTest';
+import VerifyEmail from './components/VerifyEmail';
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route element={<PublicRoute />} >
               <Route path="/register" element={<Auth isRegistered={false}/>}/>
               <Route path="/login" element={<Auth isRegistered={true} />}/>
+              <Route path="/verifyEmail" element={<VerifyEmail/>}/>
             </Route>
             <Route element={<AuthorizedRoute />}>
               <Route path="/profile/:username">

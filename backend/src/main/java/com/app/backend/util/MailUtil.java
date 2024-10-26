@@ -32,7 +32,7 @@ public class MailUtil {
             String recipient,
             String token
     ) throws MessagingException {
-        String url=emailConfiguration.getFrontendURL()+"/verify?token="+token;
+        String url=emailConfiguration.getFrontendURL()+"/verifyEmail?token="+token;
         String content = "<h2>Hello , this mail is from the Code Challenge App.</h2><br/><br/>"+
                 "<p>Click <a href='"+url+"'>here</a> to verify your account";
         String subject = "Code Challenge Email Verification";
