@@ -129,4 +129,24 @@ public class AuthenticationService {
         );
         return ResponseEntity.ok(JsonBody.builder().message("Check your email in order to reset your password.").build());
     }
+
+    public ResponseEntity<JsonBody> resetPassword(String token,String password){
+        Optional<User> userExists = userRepository.findByVerificationToken(token);
+        if (userExists.isEmpty()){
+            throw new CustomException("Password reset failed,try again.");
+        }
+        User user = userExists.get();
+        if (!user.getTokenType().equals(TokenType.PASSWORD)){
+            throw new CustomException("Password reset failed,try again.");
+        }
+        if (user.getTokenExpirationDate().isBefore(LocalDateTime.now())){
+            throw new CustomException("Password reset failed,try again.");
+        }
+        user.setPassword(passwordEncoder.encode(password));
+        user.setVerificationToken(null);
+        user.setTokenExpirationDate(null);
+        user.setTokenType(null);
+        userRepository.save(user);
+        return ResponseEntity.ok(JsonBody.builder().message("Password reset was successful,login to continue.").build());
+    }
 }
