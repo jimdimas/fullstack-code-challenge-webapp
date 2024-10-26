@@ -11,7 +11,7 @@ export default function VerifyEmail(){
         const token = searchParams.get('token')
         const url = `/auth/verifyEmail?token=${token}`
 
-        api.request('get',url,false).then(res=>{
+        api.request('post',url,false,{token:token}).then(res=>{
             if (res.status===200){
                 setMessage(res.data.message)
             }
