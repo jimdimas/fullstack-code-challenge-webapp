@@ -9,12 +9,23 @@ export default function ForgotPassword(){
     })
     const [message,setMessage] = React.useState()
     const [submit,setSubmit] = React.useState(false)
+    
+    function checkEmail(email){
+        const emailPattern = /^(|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/;
+        return emailPattern.test(email);
+    }
 
     React.useEffect(()=>{
-        if (submit){
+        if (!checkEmail(data.email)) setMessage(<>{'Email format is not valid (example@mail.com)'}</>)
+        else setMessage('')
+
+        if (submit && checkEmail(data.email)){
             const url = `/auth/forgotPassword`
+            setSubmit(false)
             api.request('post',url,false,data).then(res=>{
-                setMessage(res.data.message)
+                if (res){
+                    setMessage(res.data.message)
+                }
             }).catch(err=>{
                 if (err.response){
                     setMessage(err.response.data.message)
@@ -23,7 +34,7 @@ export default function ForgotPassword(){
                 setMessage('Something went wrong , try again.')
             })
         }
-    },[submit])
+    },[submit,data])
 
     function handleChange(event){
         const {name,value} = event.target
@@ -49,7 +60,7 @@ export default function ForgotPassword(){
                     <fieldset class="username">
                         <input type="text" placeholder="Email" required={true} id="email" name="email" value={data.email} onChange={handleChange}/>
                     </fieldset>
-                    <button type="submit" class="btn">Submit</button>
+                    <button type="submit" class="btn">Reset</button>
                 </form>
             </div>
             <> {message}</>

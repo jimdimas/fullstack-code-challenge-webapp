@@ -21,10 +21,10 @@ export default function ResetPassword(){
         
         if (tempMessage.length===0){
             setMessage('')
-            if (submit && data.password.length!==0){
+            if (submit && data.password.length>=8){
                 const url = '/auth/resetPassword'
                 const token = searchParams.get('token')
-                
+                setSubmit(false)
                 api.request('post',url,false,{
                     password:data.password,
                     token:token

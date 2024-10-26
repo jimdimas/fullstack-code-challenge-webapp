@@ -23,13 +23,14 @@ export function useApi(){
             return _response
         } catch (err){
             if (err.response){
-                if (err.response.status===403){ //token is not valid
+                if (err.response.status===403){
                     auth.logout()
                     return
+                } else {
+                    return err.response
                 }
             } else {
-                console.log(err)
-                return navigate('/',{ replace:true })
+                navigate('/',{replace:true})
             }
         }
     }
