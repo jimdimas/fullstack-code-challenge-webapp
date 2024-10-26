@@ -44,4 +44,22 @@ public class MailUtil {
                 content
         );
     }
+
+    public static void sendPasswordResetMail(
+            EmailConfiguration emailConfiguration,
+            String recipient,
+            String token
+    ) throws MessagingException {
+        String url=emailConfiguration.getFrontendURL()+"/resetPassword?token="+token;
+        String content = "<h2>Hello , this mail is from the Code Challenge App.</h2><br/><br/>"+
+                "<p>Click <a href='"+url+"'>here</a> to reset your password";
+        String subject = "Code Challenge Email Verification";
+        sendEmail(
+                emailConfiguration.javaMailSender(),
+                emailConfiguration.getEmailAddress(),
+                recipient,
+                subject,
+                content
+        );
+    }
 }
