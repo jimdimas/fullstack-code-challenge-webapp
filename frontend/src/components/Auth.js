@@ -1,5 +1,6 @@
 import React from 'react'
 import { useAuth } from '../hooks/AuthProvider'
+import { Link } from 'react-router-dom'
 import '../css/Auth.css'
 
 export default function Auth(props){
@@ -82,7 +83,9 @@ export default function Auth(props){
                     <fieldset class="password">
                         <input type="password" placeholder="Password" required={true} id="password" name="password" value={credentials.password} onChange={handleChange}/>
                     </fieldset>
-                    { props.isRegistered?'':
+                    { props.isRegistered?<div>
+                        <p>Forgot your password? Click <Link to="/forgotPassword">here</Link> to reset it.</p>
+                    </div>: //if user wants to register , show extra register fields
                     <>
                         <fieldset>
                             <input type="password" required={true} placeholder='Confirm Password' id="confirmPassword" name="confirmPassword" 

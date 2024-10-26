@@ -19,6 +19,8 @@ import SolveTest from './components/SolveTest';
 import TestResult from './components/TestResult';
 import UploadTest from './components/UploadTest';
 import VerifyEmail from './components/VerifyEmail';
+import ForgotPassword from './components/ForgotPassword';
+import ResetPassword from './components/ResetPassword';
 
 function App() {
   return (
@@ -31,6 +33,8 @@ function App() {
               <Route path="/register" element={<Auth isRegistered={false}/>}/>
               <Route path="/login" element={<Auth isRegistered={true} />}/>
               <Route path="/verifyEmail" element={<VerifyEmail/>}/>
+              <Route path="/forgotPassword" element={<ForgotPassword/>}/>
+              <Route path="/resetPassword" element={<ResetPassword/>}/>
             </Route>
             <Route element={<AuthorizedRoute />}>
               <Route path="/profile/:username">

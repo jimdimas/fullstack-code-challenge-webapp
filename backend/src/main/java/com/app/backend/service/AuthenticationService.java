@@ -101,7 +101,7 @@ public class AuthenticationService {
 
         user.setVerificationToken(null);
         user.setTokenExpirationDate(null);
-        user.setTokenType(null);
+        user.setTokenType(TokenType.EMPTY);
         userRepository.save(user);
         return ResponseEntity.ok(
                 JsonBody.builder().message("Email verification was successful,login to continue.").build());
@@ -145,7 +145,7 @@ public class AuthenticationService {
         user.setPassword(passwordEncoder.encode(password));
         user.setVerificationToken(null);
         user.setTokenExpirationDate(null);
-        user.setTokenType(null);
+        user.setTokenType(TokenType.EMPTY);
         userRepository.save(user);
         return ResponseEntity.ok(JsonBody.builder().message("Password reset was successful,login to continue.").build());
     }

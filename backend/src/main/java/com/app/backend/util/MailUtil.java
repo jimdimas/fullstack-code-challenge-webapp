@@ -53,7 +53,7 @@ public class MailUtil {
         String url=emailConfiguration.getFrontendURL()+"/resetPassword?token="+token;
         String content = "<h2>Hello , this mail is from the Code Challenge App.</h2><br/><br/>"+
                 "<p>Click <a href='"+url+"'>here</a> to reset your password";
-        String subject = "Code Challenge Email Verification";
+        String subject = "Code Challenge Reset Password";
         sendEmail(
                 emailConfiguration.javaMailSender(),
                 emailConfiguration.getEmailAddress(),
