@@ -2,6 +2,7 @@ package com.app.backend.controller;
 
 import com.app.backend.exception.CustomException;
 import com.app.backend.model.AuthResponse;
+import com.app.backend.model.ResetPasswordDataWrapper;
 import com.app.backend.model.User;
 import com.app.backend.service.AuthenticationService;
 import com.app.backend.service.JsonBody;
@@ -30,5 +31,15 @@ public class AuthenticationController {
     @GetMapping("/verifyEmail")
     public ResponseEntity<JsonBody> verifyEmail(@RequestParam(name="token") String token){
         return authenticationService.verifyEmail(token);
+    }
+
+    @PostMapping("/forgotPassword")
+    public ResponseEntity<JsonBody> forgotPassword(@RequestBody User user) throws MessagingException {
+        return authenticationService.forgotPassword(user.getEmail());
+    }
+
+    @PostMapping("/resetPassword")
+    public ResponseEntity<JsonBody> resetPassword(@RequestBody ResetPasswordDataWrapper data){
+        return authenticationService.resetPassword(data.getToken(), data.getPassword());
     }
 }
