@@ -79,4 +79,43 @@
             </class>
         </classes>
     </test>
+    <test name="Invalid Email Format Forgot Password Unit Test">
+        <classes>
+            <class name="com.app.backend.tests.AuthTest">
+                <methods>
+                    <include name="validateForgotPassword">
+                        <parameter name="Email" value="wrongemailformat"/>
+                        <parameter name="Result" value="Email format is not valid (example@mail.com)"/>
+                        <parameter name="Submit" value="false"/>
+                    </include>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Nonexistent Email Forgot Password Unit Test">
+        <classes>
+            <class name="com.app.backend.tests.AuthTest">
+                <methods>
+                    <include name="validateForgotPassword">
+                        <parameter name="Email" value="correctformat@mail.com"/>
+                        <parameter name="Result" value="User with given email doesn't exist."/>
+                        <parameter name="Submit" value="true"/>
+                    </include>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Successful Forgot Password Unit Test">
+        <classes>
+            <class name="com.app.backend.tests.AuthTest">
+                <methods>
+                    <include name="validateForgotPassword">
+                        <parameter name="Email" value="user@mail.com"/>
+                        <parameter name="Result" value="Check your email in order to reset your password."/>
+                        <parameter name="Submit" value="true"/>
+                    </include>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

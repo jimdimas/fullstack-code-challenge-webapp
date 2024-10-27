@@ -1,5 +1,6 @@
 package com.app.backend.tests;
 
+import com.app.backend.pages.ForgotPasswordPage;
 import com.app.backend.pages.LoginPage;
 import com.app.backend.pages.ProfilePage;
 import com.app.backend.pages.RegisterPage;
@@ -102,5 +103,18 @@ public class AuthTest extends UnauthorizedBaseTest{
         LoginPage loginPage = homePage.showLoginPage();
         loginPage.loginAction(username,password);
         Assert.assertEquals(loginPage.getErrorMessage(),expectedResult);
+    }
+
+    @Test
+    @Parameters({"Email","Result","Submit"})
+    public void validateForgotPassword(
+            String email,
+            String expectedResult,
+            Boolean submit
+    ){
+        ForgotPasswordPage forgotPasswordPage = homePage.showLoginPage().clickForgotPasswordLink();
+        forgotPasswordPage.setEmail(email);
+        if (submit) forgotPasswordPage.clickResetButton();
+        Assert.assertEquals(forgotPasswordPage.getMessageText(),expectedResult);
     }
 }
