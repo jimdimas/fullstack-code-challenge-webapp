@@ -1,5 +1,6 @@
 package com.app.backend.tests;
 
+import com.app.backend.pages.LoginPage;
 import com.app.backend.pages.ProfilePage;
 import com.app.backend.pages.RegisterPage;
 import org.testng.Assert;
@@ -10,7 +11,7 @@ import static com.app.backend.utility.SwitchUtility.getAlertText;
 
 public class AuthTest extends UnauthorizedBaseTest{
 
-    private void setFormData(
+    private void setRegisterFormData(
         String username,
         String email,
         String password,
@@ -36,7 +37,7 @@ public class AuthTest extends UnauthorizedBaseTest{
             String expectedResult
     ){
         RegisterPage registerPage = homePage.showRegisterPage();
-        setFormData(
+        setRegisterFormData(
             username,
             email,
             password,
@@ -56,7 +57,7 @@ public class AuthTest extends UnauthorizedBaseTest{
             String school,
             String expectedResult){
         RegisterPage registerPage = homePage.showRegisterPage();
-        setFormData(
+        setRegisterFormData(
                 username,
                 email,
                 password,
@@ -65,7 +66,7 @@ public class AuthTest extends UnauthorizedBaseTest{
                 registerPage
         );
         registerPage.clickSubmitButton();
-        String actualResult = getAlertText();
+        String actualResult = registerPage.getMessage();
         Assert.assertEquals(actualResult,expectedResult);
     }
 
@@ -80,7 +81,7 @@ public class AuthTest extends UnauthorizedBaseTest{
             String expectedResult
     ){
         RegisterPage registerPage = homePage.showRegisterPage();
-        setFormData(
+        setRegisterFormData(
                 username,
                 email,
                 password,
@@ -90,5 +91,16 @@ public class AuthTest extends UnauthorizedBaseTest{
         );
         ProfilePage profilePage = registerPage.clickSubmitButton();
         Assert.assertTrue(profilePage.isAuthorized());
+    }
+
+    @Test
+    @Parameters({"Username","Password","Result"})
+    public void invalidLogin(
+            String username,
+            String password,
+            String expectedResult){
+        LoginPage loginPage = homePage.showLoginPage();
+        loginPage.loginAction(username,password);
+        Assert.assertEquals(loginPage.getErrorMessage(),expectedResult);
     }
 }

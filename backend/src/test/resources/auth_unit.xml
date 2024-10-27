@@ -66,4 +66,17 @@
             </class>
         </classes>
     </test>
+    <test name="Invalid Data Login Unit Test">
+        <classes>
+            <class name="com.app.backend.tests.AuthTest">
+                <methods>
+                    <include name="invalidLogin">
+                        <parameter name="Username" value="user"/>
+                        <parameter name="Password" value="randomtext"/>
+                        <parameter name="Result" value="Bad credentials"/>
+                    </include>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>
