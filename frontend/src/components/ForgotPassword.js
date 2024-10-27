@@ -63,7 +63,7 @@ export default function ForgotPassword(){
                     <button type="submit" class="btn">Reset</button>
                 </form>
             </div>
-            <> {message}</>
+            <p id="message">{message}</p>
         </div>)
         
 }
