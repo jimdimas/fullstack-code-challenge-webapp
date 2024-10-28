@@ -3,8 +3,10 @@ package com.app.backend.controller;
 import com.app.backend.exception.CustomException;
 import com.app.backend.model.Problem;
 import com.app.backend.model.User;
+import com.app.backend.service.JsonBody;
 import com.app.backend.service.ProblemService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,5 +39,21 @@ public class ProblemController {
             @RequestAttribute(name="user") User user,
             @RequestBody Problem problem) throws CustomException {
         return problemService.createProblem(user,problem);
+    }
+
+    @PutMapping
+    public ResponseEntity<JsonBody> editProblem(
+            @RequestAttribute(name="user") User user,
+            @RequestBody Problem problem
+    ){
+        return problemService.editProblem(user,problem);
+    }
+
+    @DeleteMapping(path="{problemId}")
+    public ResponseEntity<JsonBody> deleteProblem(
+            @RequestAttribute(name="user") User user,
+            @PathVariable(name="problemId") UUID problemId
+    ){
+        return problemService.deleteProblem(user,problemId);
     }
 }

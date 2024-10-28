@@ -6,7 +6,9 @@ import com.app.backend.repository.ProblemRepository;
 import com.app.backend.repository.SolutionRepository;
 import com.app.backend.repository.StudentRepository;
 import com.app.backend.repository.SupervisorRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -118,5 +120,47 @@ public class ProblemService {
         problem.setUntilRanking(10*problem.getPoints());
         problemRepository.save(problem);
         return "Problem Uploaded";
+    }
+
+    public ResponseEntity<JsonBody> editProblem(User requestedBy,Problem problem){
+        if (!requestedBy.getRole().equals("SUPERVISOR")){
+            throw new CustomException("Unauthorized to perform action");
+        }
+
+        Optional<Problem> problemExists = problemRepository.findByProblemId(problem.getProblemId());
+        if (problemExists.isEmpty()){
+            throw new CustomException("Problem with id: "+problem.getProblemId().toString()+" doesn't exist");
+        }
+
+        Problem savedProblem = problemExists.get();
+        savedProblem.setQuestion(problem.getQuestion());
+        savedProblem.setDifficulty(problem.getDifficulty());
+        savedProblem.setPoints(problem.getPoints());
+        problemRepository.save(savedProblem);
+        return ResponseEntity.ok(JsonBody.
+                builder().
+                message("Problem with id: "+problem.getProblemId()+" was uploaded successfully").
+                build());
+    }
+
+    @Transactional
+    public ResponseEntity<JsonBody> deleteProblem(User requestedBy,UUID problemId){
+        if (!requestedBy.getRole().equals("SUPERVISOR")){
+            throw new CustomException("Unauthorized to perform action");
+        }
+
+        Optional<Problem> problemExists = problemRepository.findByProblemId(problemId);
+        if (problemExists.isEmpty()){
+            throw new CustomException("Problem with id: "+problemId.toString()+" doesn't exist");
+        }
+
+        Problem savedProblem = problemExists.get();
+        List<Solution> problemSolutions = solutionRepository.findByProblem(problemId);
+        solutionRepository.deleteAll(problemSolutions);
+        problemRepository.delete(savedProblem);
+        return ResponseEntity.ok(JsonBody.
+                builder().
+                message("Problem with id: "+problemId.toString()+" was deleted successfully").
+                build());
     }
 }
