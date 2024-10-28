@@ -118,4 +118,47 @@
             </class>
         </classes>
     </test>
+    <test name="Password Length Validation Reset Password Unit Test">
+        <classes>
+            <class name="com.app.backend.tests.AuthTest">
+                <methods>
+                    <include name="validateResetPassword">
+                        <parameter name="Password" value="pass"/>
+                        <parameter name="ConfirmPassword" value="pass"/>
+                        <parameter name="Result" value="Password must be at least 8 characters long."/>
+                        <parameter name="Submit" value="false"/>
+                    </include>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Non-matching Passwords Validation Reset Password Unit Test">
+        <classes>
+            <class name="com.app.backend.tests.AuthTest">
+                <methods>
+                    <include name="validateResetPassword">
+                        <parameter name="Password" value="passpass1"/>
+                        <parameter name="ConfirmPassword" value="passpass"/>
+                        <parameter name="Result" value="Passwords must match."/>
+                        <parameter name="Submit" value="false"/>
+                    </include>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    <test name="Invalid Token Validation Reset Password Unit Test">
+        <classes>
+            <class name="com.app.backend.tests.AuthTest">
+                <methods>
+                    <include name="validateResetPassword">
+                        <parameter name="Password" value="passpass"/>
+                        <parameter name="ConfirmPassword" value="passpass"/>
+                        <parameter name="Result" value="Password reset failed,try again."/>
+                        <parameter name="SampleToken" value="rAndOmTeXt1234noMeAniNg5678"/>
+                        <parameter name="Submit" value="true"/>
+                    </include>
+                </methods>
+            </class>
+        </classes>
+    </test>
 </suite>

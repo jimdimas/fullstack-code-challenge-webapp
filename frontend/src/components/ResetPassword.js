@@ -29,13 +29,13 @@ export default function ResetPassword(){
                     password:data.password,
                     token:token
                 }).then(res=>{
-                    setMessage(res.data.message)
+                    setMessage(<div>{res.data.message}</div>)
                 }).catch(err=>{
                     if (err.response){
                         setMessage(err.response.data.message)
                         return;
                     }
-                    setMessage('Something went wrong , try again')
+                    setMessage(<div>{'Something went wrong , try again'}</div>)
                 })
             }
         } else {

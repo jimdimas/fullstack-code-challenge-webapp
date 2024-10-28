@@ -1,14 +1,11 @@
 package com.app.backend.tests;
 
-import com.app.backend.pages.ForgotPasswordPage;
-import com.app.backend.pages.LoginPage;
-import com.app.backend.pages.ProfilePage;
-import com.app.backend.pages.RegisterPage;
+import com.app.backend.pages.*;
 import org.testng.Assert;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
-import static com.app.backend.utility.SwitchUtility.getAlertText;
 
 public class AuthTest extends UnauthorizedBaseTest{
 
@@ -116,5 +113,23 @@ public class AuthTest extends UnauthorizedBaseTest{
         forgotPasswordPage.setEmail(email);
         if (submit) forgotPasswordPage.clickResetButton();
         Assert.assertEquals(forgotPasswordPage.getMessageText(),expectedResult);
+    }
+
+    @Test
+    @Parameters({"URL","Password","ConfirmPassword","SampleToken","Submit","Result"})
+    public void validateResetPassword(
+            String url,
+            String password,
+            String confirmPassword,
+            @Optional String sampleToken,
+            Boolean submit,
+            String result
+    ){
+        driver.get(url+"/resetPassword?token="+sampleToken);    //can get to this page only by clicking link in email
+        ResetPasswordPage resetPasswordPage = new ResetPasswordPage();
+        resetPasswordPage.setPassword(password);
+        resetPasswordPage.setConfirmPassword(confirmPassword);
+        if (submit) resetPasswordPage.clickSubmitButton();
+        Assert.assertEquals(result,resetPasswordPage.getMessageText());
     }
 }
