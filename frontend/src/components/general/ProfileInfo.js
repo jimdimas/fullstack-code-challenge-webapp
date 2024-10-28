@@ -1,6 +1,6 @@
 import React from 'react'
-import '../css/profile.css'
-import { useAuth } from '../hooks/AuthProvider'
+import '../../css/profile.css'
+import { useAuth } from '../../hooks/AuthProvider'
 
 export default function ProfileInfo(props){
     const auth = useAuth()

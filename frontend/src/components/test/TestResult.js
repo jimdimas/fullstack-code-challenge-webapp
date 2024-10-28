@@ -1,5 +1,5 @@
 import React from "react";
-import { useApi } from "../hooks/useApi";
+import { useApi } from "../../hooks/useApi";
 import { useParams } from "react-router-dom";
 import SingleTestResult from "./SingleTestResult";
 

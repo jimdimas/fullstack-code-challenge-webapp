@@ -1,7 +1,7 @@
 import React from 'react'
-import { useAuth } from '../hooks/AuthProvider'
+import { useAuth } from '../../hooks/AuthProvider'
 import { Link } from 'react-router-dom'
-import '../css/Auth.css'
+import '../../css/Auth.css'
 
 export default function Auth(props){
     const {isRegistered}=props

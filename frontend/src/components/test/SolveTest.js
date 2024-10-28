@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams , useNavigate } from "react-router-dom";
-import { useApi } from "../hooks/useApi";
+import { useApi } from "../../hooks/useApi";
 import Swal from "sweetalert2";
 export default function SolveTest(){
     const [test,setTest] = React.useState()

@@ -1,9 +1,9 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import ProfileInfo from "./ProfileInfo";
-import { useApi } from "../hooks/useApi";
-import { useAuth } from "../hooks/AuthProvider";
-import SingleProblem from "./SingleProblem";
+import { useApi } from "../../hooks/useApi";
+import { useAuth } from "../../hooks/AuthProvider";
+import SingleProblem from "../problem/SingleProblem";
 
 export default function Profile(){
     const [userInfo,setUserInfo] = React.useState()

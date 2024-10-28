@@ -1,9 +1,9 @@
 import React from 'react'
-import { useApi } from '../hooks/useApi'
+import { useApi } from '../../hooks/useApi'
 import { useNavigate , useParams } from 'react-router-dom'
 import SingleSolution from './SingleSolution'
-import { useAuth } from '../hooks/AuthProvider'
-import '../css/table.css'
+import { useAuth } from '../../hooks/AuthProvider'
+import '../../css/table.css'
 
 export default function Solution(props){
     const [solutions,setSolutions] = React.useState()

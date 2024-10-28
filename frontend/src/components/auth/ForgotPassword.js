@@ -1,6 +1,6 @@
 import React from "react";
-import { useApi } from "../hooks/useApi";
-import '../css/Auth.css'
+import { useApi } from "../../hooks/useApi";
+import '../../css/Auth.css'
 
 export default function ForgotPassword(){
     const api = useApi()

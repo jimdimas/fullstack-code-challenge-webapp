@@ -1,7 +1,7 @@
 import React from "react";
-import { useApi } from "../hooks/useApi";
+import { useApi } from "../../hooks/useApi";
 import { useSearchParams } from "react-router-dom";
-import '../css/Auth.css'
+import '../../css/Auth.css'
 
 export default function ResetPassword(){
     const [data,setData] = React.useState({

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useAuth } from '../hooks/AuthProvider'
-import '../css/header.css'
+import { useAuth } from '../../hooks/AuthProvider'
+import '../../css/header.css'
 
 export default function Header(){
     const auth = useAuth()

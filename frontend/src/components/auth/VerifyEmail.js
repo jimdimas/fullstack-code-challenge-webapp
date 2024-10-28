@@ -1,6 +1,6 @@
 import React from "react";
 import { useSearchParams } from "react-router-dom";
-import {useApi} from '../hooks/useApi'
+import {useApi} from '../../hooks/useApi'
 
 export default function VerifyEmail(){
     const [searchParams,setSearchParams] = useSearchParams()

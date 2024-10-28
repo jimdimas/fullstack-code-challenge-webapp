@@ -1,5 +1,5 @@
 import React from "react";
-import {useApi} from '../hooks/useApi'
+import {useApi} from '../../hooks/useApi'
 import SingleTest from "./SingleTest";
 
 export default function Test(){

@@ -1,26 +1,26 @@
 import './App.css';
-import Header from './components/Header';
+import Header from './components/general/Header';
 import AuthProvider from './hooks/AuthProvider';
-import Auth from './components/Auth';
+import Auth from './components/auth/Auth';
 import { Routes,Route } from 'react-router-dom';
-import Home from './components/Home';
-import Profile from './components/Profile';
-import NotFound from './components/NotFounds';
-import Problem from './components/Problem';
+import Home from './components/general/Home';
+import Profile from './components/general/Profile';
+import NotFound from './components/general/NotFounds';
+import Problem from './components/problem/Problem';
 import AuthorizedRoute from './routes/AuthorizedRoute';
 import PublicRoute from './routes/PublicRoute';
-import SolveProblem from './components/SolveProblem';
-import Solution from './components/Solution';
-import UploadProblem from './components/UploadProblem';
+import SolveProblem from './components/problem/SolveProblem';
+import Solution from './components/solution/Solution';
+import UploadProblem from './components/problem/UploadProblem';
 import AdminRoute from './routes/AdminRoute';
 import Users from './components/Users';
-import Test from './components/Test';
-import SolveTest from './components/SolveTest';
-import TestResult from './components/TestResult';
-import UploadTest from './components/UploadTest';
-import VerifyEmail from './components/VerifyEmail';
-import ForgotPassword from './components/ForgotPassword';
-import ResetPassword from './components/ResetPassword';
+import Test from './components/test/Test';
+import SolveTest from './components/test/SolveTest';
+import TestResult from './components/test/TestResult';
+import UploadTest from './components/test/UploadTest';
+import VerifyEmail from './components/auth/VerifyEmail';
+import ForgotPassword from './components/auth/ForgotPassword';
+import ResetPassword from './components/auth/ResetPassword';
 
 function App() {
   return (

@@ -1,6 +1,6 @@
 import React from "react";
-import { useAuth } from "../hooks/AuthProvider";
-import { useApi } from "../hooks/useApi";
+import { useAuth } from "../../hooks/AuthProvider";
+import { useApi } from "../../hooks/useApi";
 import { useNavigate } from "react-router-dom";
 
 export default function UploadProblem(){

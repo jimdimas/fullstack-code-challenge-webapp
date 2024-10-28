@@ -1,8 +1,8 @@
 import React from "react";
-import { useAuth } from "../hooks/AuthProvider";
-import { useApi } from "../hooks/useApi";
+import { useAuth } from "../../hooks/AuthProvider";
+import { useApi } from "../../hooks/useApi";
 import { Link , useNavigate } from "react-router-dom";
-import '../css/table.css'
+import '../../css/table.css'
 
 export default function SingleSolution(props){
     const auth = useAuth()

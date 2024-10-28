@@ -1,8 +1,8 @@
 import React from 'react'
 import SingleProblem from './SingleProblem'
-import { useApi } from '../hooks/useApi'
-import { useAuth } from '../hooks/AuthProvider'
-import '../css/table.css'
+import { useApi } from '../../hooks/useApi'
+import { useAuth } from '../../hooks/AuthProvider'
+import '../../css/table.css'
 
 export default function Problem(){
     const [problem,setProblem] = React.useState([])
