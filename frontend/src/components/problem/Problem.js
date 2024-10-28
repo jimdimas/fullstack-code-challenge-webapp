@@ -43,7 +43,11 @@ export default function Problem(){
                             <th>Question</th>
                             <th data-priority="1">Difficulty</th>
                             <th data-priority="2">Points</th>
-                            {auth.role==='STUDENT'?<th></th>:''}
+                            {auth.role==='STUDENT'?<th></th>:
+                                <>
+                                    <th></th><th></th>
+                                </>
+                            }
                             <th></th>
                         </tr>
                     </thead>
